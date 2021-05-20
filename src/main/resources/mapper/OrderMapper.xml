@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cosine.demo.dao.OrderDao">
+<!--    <resultMap id="BaseResultMap" type="com.cosine.demo.domain.Order">-->
+<!--        <result column="order_id" property="orderId" />-->
+<!--        <result column="order_title" property="orderTitle" />-->
+<!--        <result column="order_price" property="orderPrice" />-->
+<!--        <result column="order_time" property="orderTime" />-->
+<!--        <result column="order_paystatus" property="orderPayStatus" />-->
+<!--        <result column="order_deletestatus" property="orderDeleteStatus" />-->
+<!--    </resultMap>-->
+
+    <sql id="Base_Column_List">
+        order_id, order_title, order_price, order_time, order_paystatus, order_deletestatus
+    </sql>
+
+    <insert id="insert" parameterType="com.cosine.demo.domain.Order">
+        insert into order_table2(order_id,order_title,order_price,order_time,order_paystatus,order_deletestatus) values (#{orderId},#{orderTitle},#{orderPrice},#{orderTime},#{orderPayStatus},#{orderDeleteStatus})
+    </insert>
+    
+    <update id="delete">
+        update order_table2 set order_deletestatus=1 where order_id = #{orderId}
+    </update>
+
+</mapper>
