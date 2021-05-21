@@ -62,5 +62,10 @@ public class OrderServiceImpl implements OrderService {
         return "删除数据失败";
     }
 
+    @Override
+    public Order findOrderById(int orderId) {
+        return orderDao.findById(orderId);
+    }
+
 
 }

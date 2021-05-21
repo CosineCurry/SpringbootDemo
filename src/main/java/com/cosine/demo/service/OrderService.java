@@ -16,7 +16,7 @@ public interface OrderService {
      * 新增订单
      *
      * @param order Order类
-     * @return Result<XxxxDO>
+     * @return String
      */
     String addOrder(Order order);
 
@@ -24,7 +24,15 @@ public interface OrderService {
      * 根据订单id删除一个订单
      *
      * @param orderId 订单id
-     * @return Result<XxxxDO>
+     * @return String
      */
     String deleteOrderById(int orderId);
+
+    /**
+     * 根据订单id查找一个订单
+     *
+     * @param orderId 订单id
+     * @return String
+     */
+    Order findOrderById(int orderId);
 }

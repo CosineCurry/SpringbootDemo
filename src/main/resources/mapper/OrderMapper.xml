@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cosine.demo.dao.OrderDao">
-<!--    <resultMap id="BaseResultMap" type="com.cosine.demo.domain.Order">-->
-<!--        <result column="order_id" property="orderId" />-->
-<!--        <result column="order_title" property="orderTitle" />-->
-<!--        <result column="order_price" property="orderPrice" />-->
-<!--        <result column="order_time" property="orderTime" />-->
-<!--        <result column="order_paystatus" property="orderPayStatus" />-->
-<!--        <result column="order_deletestatus" property="orderDeleteStatus" />-->
-<!--    </resultMap>-->
+    <resultMap id="BaseResultMap" type="com.cosine.demo.domain.Order">
+        <result column="order_id" property="orderId" />
+        <result column="order_title" property="orderTitle" />
+        <result column="order_price" property="orderPrice" />
+        <result column="order_time" property="orderTime" />
+        <result column="order_paystatus" property="orderPayStatus" />
+        <result column="order_deletestatus" property="orderDeleteStatus" />
+    </resultMap>
 
     <sql id="Base_Column_List">
         order_id, order_title, order_price, order_time, order_paystatus, order_deletestatus
@@ -21,5 +21,9 @@
     <update id="delete">
         update order_table2 set order_deletestatus=1 where order_id = #{orderId}
     </update>
+
+    <select id="findById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from order_table2 where order_id = #{orderId} and order_deletestatus = 0
+    </select>
 
 </mapper>

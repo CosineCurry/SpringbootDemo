@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 类描述：
+ * 类描述：订单Controller 实现Restful HTTP服务
  *
  * @ClassName OrderRestController
  * @Description TODO
@@ -21,13 +21,7 @@ public class OrderRestController {
     @Autowired
     private OrderService orderService;
 
-    /**
-     * @Description:插入一条数据
-     * @Param: [order]
-     * @return: java.lang.String
-     * @Author: cosine
-     * @Date: 2021/5/20
-     */
+
     @PostMapping("/addOrder")
     public String addOrder(@RequestBody Order order) {
         System.out.println(order);
@@ -39,4 +33,6 @@ public class OrderRestController {
         return orderService.deleteOrderById(orderId);
     }
 
+    @GetMapping("/findOneOrder/{orderId}")
+    public Order findOrderById(@PathVariable(value = "orderId") int orderId) {return orderService.findOrderById(orderId);}
 }

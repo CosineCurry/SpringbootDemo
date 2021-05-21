@@ -26,4 +26,12 @@ public interface OrderDao {
      * @return int 1成功删除，0删除失败
      */
     int delete(@Param("orderId") int orderId);
+
+    /**
+     * 根据订单id查找订单
+     *
+     * @param orderId 订单id
+     * @return Order
+     */
+    Order findById(@Param("orderId") int orderId);
 }
