@@ -41,4 +41,9 @@ public class OrderRestController {
         return orderService.findAllOrderByPage(page, offset);
     }
 
+    @GetMapping("/updatePrice")
+    public String changePriceById(@RequestParam(value = "orderId") int orderId, @RequestParam(value = "price") long price) {
+        return orderService.updatePriceById(orderId, price);
+    }
+
 }

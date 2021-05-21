@@ -43,4 +43,13 @@ public interface OrderDao {
      * @return List<Order>
      */
     List<Order> findAllByPage();
+
+    /**
+     * 修改订单的价格
+     *
+     *@param orderId 订单id
+     *@param price 修改后的订单价格
+     * @return int
+     */
+    int updatePriceById(@Param("orderId") int orderId, @Param("price") long price);
 }

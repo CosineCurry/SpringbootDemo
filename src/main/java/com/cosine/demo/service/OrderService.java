@@ -42,7 +42,17 @@ public interface OrderService {
      *
      * @param page 当前页码
      * @param offset 每页条数
-     * @return String
+     * @return PageInfo<Order>
      */
     PageInfo<Order> findAllOrderByPage(int page, int offset);
+
+    /**
+     * 根据订单id修改订单的价格
+     *
+     * @param orderId 订单id
+     * @param price 修改后的价格
+     * @return String
+     */
+    String updatePriceById(int orderId, long price);
+
 }

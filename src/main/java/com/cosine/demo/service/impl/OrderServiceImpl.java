@@ -78,5 +78,14 @@ public class OrderServiceImpl implements OrderService {
         return new PageInfo<>(all);
     }
 
+    @Override
+    public String updatePriceById(int orderId, long price) {
+        String res = "修改成功";
+        int tmp = orderDao.updatePriceById(orderId, price);
+        if (tmp == 0) {res = "修改失败";}
+        return res;
+
+    }
+
 
 }
