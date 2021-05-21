@@ -12,3 +12,10 @@ mybatis:
 logging:
   level:
     com.cosine.helloworld.domain.Order: debug
+
+# 分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: false
+  params: count=countSql
+  supportMethodsArguments: true

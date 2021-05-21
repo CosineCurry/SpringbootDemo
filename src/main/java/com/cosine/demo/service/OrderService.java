@@ -1,6 +1,7 @@
 package com.cosine.demo.service;
 
 import com.cosine.demo.domain.Order;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 类描述：订单 Service类
@@ -35,4 +36,13 @@ public interface OrderService {
      * @return String
      */
     Order findOrderById(int orderId);
+
+    /**
+     * 根据订单id查找一个订单
+     *
+     * @param page 当前页码
+     * @param offset 每页条数
+     * @return String
+     */
+    PageInfo<Order> findAllOrderByPage(int page, int offset);
 }

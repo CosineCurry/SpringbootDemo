@@ -25,5 +25,10 @@
     <select id="findById" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/> from order_table2 where order_id = #{orderId} and order_deletestatus = 0
     </select>
+    
+    <select id="findAllByPage" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from order_table2 where order_deletestatus = 0
+    </select>
+            
 
 </mapper>

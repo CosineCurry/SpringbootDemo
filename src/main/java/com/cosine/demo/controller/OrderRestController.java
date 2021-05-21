@@ -2,8 +2,8 @@ package com.cosine.demo.controller;
 
 import com.cosine.demo.domain.Order;
 import com.cosine.demo.service.OrderService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -35,4 +35,10 @@ public class OrderRestController {
 
     @GetMapping("/findOneOrder/{orderId}")
     public Order findOrderById(@PathVariable(value = "orderId") int orderId) {return orderService.findOrderById(orderId);}
+
+    @GetMapping("/findAllOrder")
+    public PageInfo<Order> findAllOrderByPage(@RequestParam(value = "当前页码") int page, @RequestParam(value = "每页数量") int offset) {
+        return orderService.findAllOrderByPage(page, offset);
+    }
+
 }

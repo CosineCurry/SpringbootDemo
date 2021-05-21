@@ -3,10 +3,13 @@ package com.cosine.demo.service.impl;
 import com.cosine.demo.dao.OrderDao;
 import com.cosine.demo.domain.Order;
 import com.cosine.demo.service.OrderService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.List;
 
 /**
  * 类描述：Service实现类
@@ -65,6 +68,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findOrderById(int orderId) {
         return orderDao.findById(orderId);
+    }
+
+    @Override
+    public PageInfo<Order> findAllOrderByPage(int page, int offset) {
+        //这句是核心
+        PageHelper.startPage(page, offset);
+        List<Order> all = orderDao.findAllByPage();
+        return new PageInfo<>(all);
     }
 
 

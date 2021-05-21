@@ -3,6 +3,8 @@ package com.cosine.demo.dao;
 import com.cosine.demo.domain.Order;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 订单 DAO 接口类
  * @Author cosine
@@ -34,4 +36,11 @@ public interface OrderDao {
      * @return Order
      */
     Order findById(@Param("orderId") int orderId);
+
+    /**
+     * 查找所有订单
+     *
+     * @return List<Order>
+     */
+    List<Order> findAllByPage();
 }
