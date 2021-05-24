@@ -2,6 +2,8 @@ package com.cosine.demo.service.impl;
 
 import com.cosine.demo.dao.OrderDao;
 import com.cosine.demo.domain.Order;
+import com.cosine.demo.dto.OrderInfo;
+import com.cosine.demo.dto.OrderQueryDTO;
 import com.cosine.demo.service.OrderService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -76,6 +78,13 @@ public class OrderServiceImpl implements OrderService {
         PageHelper.startPage(page, offset);
         List<Order> all = orderDao.findAllByPage();
         return new PageInfo<>(all);
+    }
+
+    @Override
+    public OrderInfo<Order> findAllOrderWithCondition(OrderQueryDTO queryDTO) {
+        List<Order> list = orderDao.findAllByCondition(queryDTO);
+        long total = orderDao.countTotalNum(queryDTO);
+        return new OrderInfo<>(total, list);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.cosine.demo.dao;
 
 import com.cosine.demo.domain.Order;
+import com.cosine.demo.dto.OrderQueryDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -33,23 +34,40 @@ public interface OrderDao {
      * 根据订单id查找订单
      *
      * @param orderId 订单id
-     * @return Order
+     * @return Order 具体订单
      */
     Order findById(@Param("orderId") int orderId);
 
     /**
      * 查找所有订单
      *
-     * @return List<Order>
+     * @return List<Order> 订单list
      */
     List<Order> findAllByPage();
+
+    /**
+     * 根据条件查找订单
+     *
+     * @param queryDTO 查询条件
+     * @return List<Order> 订单list
+     */
+    List<Order> findAllByCondition(OrderQueryDTO queryDTO);
+
+    /**
+     * 查出总数据量
+     *
+     * @param queryDTO 查询条件
+     * @return long 总数
+     */
+    long countTotalNum(OrderQueryDTO queryDTO);
+
 
     /**
      * 修改订单的价格
      *
      *@param orderId 订单id
      *@param price 修改后的订单价格
-     * @return int
+     * @return int 1为成功，0为失败
      */
     int updatePriceById(@Param("orderId") int orderId, @Param("price") long price);
 }

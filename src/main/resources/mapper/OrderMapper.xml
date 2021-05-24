@@ -30,6 +30,66 @@
         select <include refid="Base_Column_List"/> from order_table2 where order_deletestatus = 0
     </select>
 
+    <select id="findAllByCondition" resultMap="BaseResultMap" parameterType="com.cosine.demo.dto.OrderQueryDTO">
+        select <include refid="Base_Column_List"/> from order_table2 where order_deletestatus = 0
+        <if test="settleOrderIdArray != null and settleOrderIdArray.length != 0">
+            and order_id in
+            <foreach collection="settleOrderIdArray" item="value" separator="," open="(" close=")">
+                #{value}
+            </foreach>
+        </if>
+        <if test="orderTitleArray != null and settleOrderIdArray.length != 0">
+            and order_id in
+            <foreach collection="orderTitleArray" item="value" separator="," open="(" close=")">
+                #{value}
+            </foreach>
+        </if>
+        <if test="orderPriceStart != null">
+            and order_price >= #{orderPriceStart}
+        </if>
+        <if test="orderPriceEnd != null">
+            and #{orderPriceEnd} >= order_price
+        </if>
+        <if test="orderTimeStart != null">
+            and order_time >= #{orderTimeStart}
+        </if>
+        <if test="orderTimeEnd != null">
+            and #{orderTimeEnd} >= order_time
+        </if>
+        <if test="pageNo != null and pageSize != null">
+            limit #{offset}, #{pageSize}
+        </if>
+
+    </select>
+
+    <select id="countTotalNum" resultType="java.lang.Long" parameterType="com.cosine.demo.dto.OrderQueryDTO">
+        select count(1) from order_table2 where order_deletestatus = 0
+        <if test="settleOrderIdArray != null and settleOrderIdArray.length != 0">
+            and order_id in
+            <foreach collection="settleOrderIdArray" item="value" separator="," open="(" close=")">
+                #{value}
+            </foreach>
+        </if>
+        <if test="orderTitleArray != null and settleOrderIdArray.length != 0">
+            and order_id in
+            <foreach collection="orderTitleArray" item="value" separator="," open="(" close=")">
+                #{value}
+            </foreach>
+        </if>
+        <if test="orderPriceStart != null">
+            and order_price >= #{orderPriceStart}
+        </if>
+        <if test="orderPriceEnd != null">
+            and #{orderPriceEnd} >= order_price
+        </if>
+        <if test="orderTimeStart != null">
+            and order_time >= #{orderTimeStart}
+        </if>
+        <if test="orderTimeEnd != null">
+            and #{orderTimeEnd} >= order_time
+        </if>
+    </select>
+
     <update id="updatePriceById">
         update order_table2 set order_price = #{price} where order_id = #{orderId}
     </update>

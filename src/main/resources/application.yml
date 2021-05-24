@@ -9,9 +9,10 @@ mybatis:
   type-aliases-package: com.cosine.demo.domain.Order
   mapper-locations: classpath:mapper/*.xml
 
+# debug 打印sql语句
 logging:
   level:
-    com.cosine.helloworld.domain.Order: debug
+    com.cosine.demo.dao: debug
 
 # 分页插件
 pagehelper:

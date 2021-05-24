@@ -1,6 +1,8 @@
 package com.cosine.demo.service;
 
 import com.cosine.demo.domain.Order;
+import com.cosine.demo.dto.OrderInfo;
+import com.cosine.demo.dto.OrderQueryDTO;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -38,13 +40,21 @@ public interface OrderService {
     Order findOrderById(int orderId);
 
     /**
-     * 根据订单id查找一个订单
+     * 查找所有订单
      *
      * @param page 当前页码
      * @param offset 每页条数
      * @return PageInfo<Order>
      */
     PageInfo<Order> findAllOrderByPage(int page, int offset);
+
+    /**
+     * 根据条件查找所有订单
+     *
+     * @param queryDTO 查询条件
+     * @return OrderInfo<Order>
+     */
+    OrderInfo<Order> findAllOrderWithCondition(OrderQueryDTO queryDTO);
 
     /**
      * 根据订单id修改订单的价格
