@@ -54,7 +54,7 @@ public interface OrderService {
      * @param queryDTO 查询条件
      * @return OrderInfo<Order>
      */
-    OrderInfo<Order> findAllOrderWithCondition(OrderQueryDTO queryDTO);
+    OrderInfo<Order> findOrderWithCondition(OrderQueryDTO queryDTO);
 
     /**
      * 根据订单id修改订单的价格

@@ -7,6 +7,8 @@ import com.cosine.demo.dto.OrderQueryDTO;
 import com.cosine.demo.service.OrderService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderDao orderDao;
+
+    private final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     @Override
     public String addOrder(Order order) {
@@ -50,8 +54,13 @@ public class OrderServiceImpl implements OrderService {
         }
         BigInteger price = new BigInteger(String.valueOf(p));
         order.setOrderPrice(price);
+        int res = 0;
+        try {
+            res = orderDao.insert(order);
 
-        int res = orderDao.insert(order);
+        } catch (Exception e) {
+            logger.error("插入数据失败",e);
+        }
         if (res == 1) {
             return "插入数据成功";
         }
@@ -81,10 +90,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderInfo<Order> findAllOrderWithCondition(OrderQueryDTO queryDTO) {
-        List<Order> list = orderDao.findAllByCondition(queryDTO);
+    public OrderInfo<Order> findOrderWithCondition(OrderQueryDTO queryDTO) {
+        List<Order> list = orderDao.findByCondition(queryDTO);
         long total = orderDao.countTotalNum(queryDTO);
-        return new OrderInfo<>(total, list);
+        //在controller层有过保证：查出来为空数组时返回异常码
+        int pageNo = queryDTO.getPageNo(), pageSize = queryDTO.getPageSize();
+        boolean isFirstPage = false, isLastPage = false, hasPreviousPage = false, hasNextPage = false;
+        if (pageNo == 1) {
+            isFirstPage = true;
+        }
+        if (pageNo * pageSize >= total) {
+            isLastPage = true;
+        }
+        if (pageNo > 1) {
+            hasPreviousPage = true;
+        }
+        if (!isLastPage) {
+            hasNextPage = true;
+        }
+        return new OrderInfo<>(pageNo,pageSize,total, isFirstPage, isLastPage, hasPreviousPage, hasNextPage, list);
     }
 
     @Override

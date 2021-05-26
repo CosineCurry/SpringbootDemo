@@ -51,7 +51,7 @@ public interface OrderDao {
      * @param queryDTO 查询条件
      * @return List<Order> 订单list
      */
-    List<Order> findAllByCondition(OrderQueryDTO queryDTO);
+    List<Order> findByCondition(OrderQueryDTO queryDTO);
 
     /**
      * 查出总数据量

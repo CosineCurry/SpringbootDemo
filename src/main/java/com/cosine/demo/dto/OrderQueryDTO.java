@@ -37,6 +37,19 @@ public class OrderQueryDTO {
     /** 每页容量 **/
     private Integer offset;
 
+    public OrderQueryDTO() {}
+    public OrderQueryDTO(Integer[] settleOrderIdArray, String[] orderTitleArray, BigInteger orderPriceStart, BigInteger orderPriceEnd, Date orderTimeStart, Date orderTimeEnd, Integer orderPayStatus, Integer pageNo, Integer pageSize) {
+        this.settleOrderIdArray = settleOrderIdArray;
+        this.orderTitleArray = orderTitleArray;
+        this.orderPriceStart = orderPriceStart;
+        this.orderPriceEnd = orderPriceEnd;
+        this.orderTimeStart = orderTimeStart;
+        this.orderTimeEnd = orderTimeEnd;
+        this.orderPayStatus = orderPayStatus;
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
+    }
+
     public Integer[] getSettleOrderIdArray() {
         return settleOrderIdArray;
     }

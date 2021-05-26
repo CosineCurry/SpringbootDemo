@@ -16,7 +16,7 @@ import java.util.Date;
  */
 public class Order {
     /** 订单id */
-    private int orderId;
+    private Integer orderId;
     /** 价格 */
     private BigInteger orderPrice;
     /** 订单时间 */
@@ -24,12 +24,22 @@ public class Order {
     private Date orderTime;
     /** 订单名称 */
     private String orderTitle;
-    /** 支付状态 */
+    /** 支付状态 默认为0 */
     private int orderPayStatus;
-    /** 删除状态 */
+    /** 删除状态 默认为0 */
     private int orderDeleteStatus;
 
-    public int getOrderId() {
+    public Order() {}
+    public Order(Integer orderId, BigInteger orderPrice, Date orderTime, String orderTitle, int orderPayStatus, int orderDeleteStatus) {
+        this.orderId = orderId;
+        this.orderPrice = orderPrice;
+        this.orderTime = orderTime;
+        this.orderTitle = orderTitle;
+        this.orderPayStatus = orderPayStatus;
+        this.orderDeleteStatus = orderDeleteStatus;
+    }
+
+    public Integer getOrderId() {
         return orderId;
     }
 

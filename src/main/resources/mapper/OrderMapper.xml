@@ -30,7 +30,7 @@
         select <include refid="Base_Column_List"/> from order_table2 where order_deletestatus = 0
     </select>
 
-    <select id="findAllByCondition" resultMap="BaseResultMap" parameterType="com.cosine.demo.dto.OrderQueryDTO">
+    <select id="findByCondition" resultMap="BaseResultMap" parameterType="com.cosine.demo.dto.OrderQueryDTO">
         select <include refid="Base_Column_List"/> from order_table2 where order_deletestatus = 0
         <if test="settleOrderIdArray != null and settleOrderIdArray.length != 0">
             and order_id in
@@ -56,9 +56,7 @@
         <if test="orderTimeEnd != null">
             and #{orderTimeEnd} >= order_time
         </if>
-        <if test="pageNo != null and pageSize != null">
-            limit #{offset}, #{pageSize}
-        </if>
+        limit #{offset}, #{pageSize}
 
     </select>
 
