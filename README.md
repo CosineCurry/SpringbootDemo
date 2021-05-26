@@ -1,5 +1,6 @@
 # SpringbootDemo
-一个简单的Springboot Demo，包基本的增删改查功能
+一个简单的Springboot Demo，提供了接口，包含基本的增删改查功能。
+返回信息规范化，有针对service层的junit测试。
 ## 增
 ## 删
 逻辑删除，数据表中增加一个是否删除的字段。
