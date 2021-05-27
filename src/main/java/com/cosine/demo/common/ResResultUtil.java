@@ -10,6 +10,10 @@ package com.cosine.demo.common;
  * @Version 1.0
  */
 public class ResResultUtil {
+
+    public static final String SUCCESS = "成功";
+    public static final String FAIL = "失败";
+
     /**
      * 有数据的成功
      * @param o

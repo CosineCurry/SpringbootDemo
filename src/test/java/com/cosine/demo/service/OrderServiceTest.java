@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -18,7 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-
+@Rollback
+@Transactional
 class OrderServiceTest {
 
     @Autowired
@@ -35,7 +38,7 @@ class OrderServiceTest {
     @DisplayName("测试service层的addOrder方法")
     void addOrder() {
         logger.info("execute addOrder");
-        Order order = new Order(30, new BigInteger(String.valueOf(100)), new Date(), "test", 0, 0);
+        Order order = new Order(31, new BigInteger(String.valueOf(100)), new Date(), "test", 0, 0);
         orderService.addOrder(order);
     }
 

@@ -37,11 +37,12 @@ public class OrderRestController {
     @PostMapping("/addOrder")
     public ResResult addOrder(@RequestBody Order order) {
         logger.info("插入一条Order数据："+order.toString());
+        //数据校验
         if (order.getOrderId() == null || order.getOrderTime() == null || order.getOrderPrice() == null || order.getOrderTitle() == null) {
-            return ResResultUtil.error(301,"插入数据不为空");
+            return ResResultUtil.error(301,"插入数据不能为空");
         }
         String str = orderService.addOrder(order);
-        if (str.equals("插入数据成功")) {
+        if (str.equals(ResResultUtil.SUCCESS)) {
             return ResResultUtil.success();
         }
         return ResResultUtil.error(302,"插入数据失败");
@@ -56,7 +57,7 @@ public class OrderRestController {
     public ResResult deleteOneOrder(@PathVariable(value = "orderId") int orderId) {
         logger.info("删除id为%d的订单",orderId);
         String str = orderService.deleteOrderById(orderId);
-        if (str.equals("删除数据失败")) {
+        if (str.equals(ResResultUtil.FAIL)) {
             return ResResultUtil.error(303,"删除数据失败");
         }
         return ResResultUtil.success();
@@ -96,7 +97,7 @@ public class OrderRestController {
     @PostMapping("/findOrderWithCondition")
     public ResResult findOrderWithCondition(@RequestBody OrderQueryDTO queryDTO) {
         logger.info("查找条件为："+queryDTO.toString());
-        if (queryDTO.getPageNo() == null || queryDTO.getPageNo().intValue() < 0 || queryDTO.getPageSize() < 0) {
+        if (queryDTO.getPageNo() == null || queryDTO.getPageNo() < 0 || queryDTO.getPageSize() < 0) {
             return ResResultUtil.error(301,"查询数据不正确");
         }
         //设置pageSize默认值为5
@@ -119,7 +120,7 @@ public class OrderRestController {
     @GetMapping("/updatePrice")
     public ResResult changePriceById(@RequestParam(value = "orderId") int orderId, @RequestParam(value = "price") long price) {
         String str = orderService.updatePriceById(orderId, price);
-        if (str.equals("修改失败")) {
+        if (str.equals(ResResultUtil.FAIL)) {
             return ResResultUtil.error(305,"修改价格失败");
         }
         return ResResultUtil.success();
