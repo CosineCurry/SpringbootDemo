@@ -12,9 +12,12 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 类描述：Service实现类
@@ -30,6 +33,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderDao orderDao;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     private final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
@@ -58,9 +64,31 @@ public class OrderServiceImpl implements OrderService {
         return ResResultUtil.FAIL;
     }
 
+    /**
+     * 获取订单逻辑：
+     * 如果缓存存在，从缓存中获取订单信息
+     * 如果缓存不存在，从 DB 中获取订单信息，然后插入缓存
+     */
     @Override
     public Order findOrderById(int orderId) {
-        return orderDao.findById(orderId);
+        //从缓存中获取订单信息
+        String key = "order_" + orderId;
+        ValueOperations<String, Order> operations = redisTemplate.opsForValue();
+        //缓存存在
+        boolean hasKey = redisTemplate.hasKey(key);
+        logger.info("hasKey:"+hasKey);
+
+        if (hasKey) {
+            Order order = operations.get(key);
+            logger.info("从缓存中获取了订单："+order.toString());
+            return order;
+        }
+        //从DB中获取城市信息
+        Order order = orderDao.findById(orderId);
+        //插入缓存
+        operations.set(key, order, 10, TimeUnit.SECONDS);
+        logger.info("订单插入缓存："+order.toString());
+        return order;
     }
 
     @Override
@@ -87,6 +115,13 @@ public class OrderServiceImpl implements OrderService {
         if (tmp == 0) {return ResResultUtil.FAIL;}
         return ResResultUtil.SUCCESS;
 
+    }
+
+    @Override
+    public String updatePayStatusById(int orderId) {
+        int tmp = orderDao.updatePayStatusById(orderId);
+        if (tmp == 0) {return ResResultUtil.FAIL;}
+        return ResResultUtil.SUCCESS;
     }
 
 

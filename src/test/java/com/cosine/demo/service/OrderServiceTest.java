@@ -19,6 +19,7 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+//单元测试回滚
 @SpringBootTest
 @Rollback
 @Transactional
@@ -38,7 +39,7 @@ class OrderServiceTest {
     @DisplayName("测试service层的addOrder方法")
     void addOrder() {
         logger.info("execute addOrder");
-        Order order = new Order(31, new BigInteger(String.valueOf(100)), new Date(), "test", 0, 0);
+        Order order = new Order(31, new BigInteger(String.valueOf(100)), new Date(), "test", 0, 0, 10001, 3);
         orderService.addOrder(order);
     }
 
@@ -65,7 +66,6 @@ class OrderServiceTest {
                 () -> assertTrue(orderService.findOrderWithCondition(new OrderQueryDTO(new Integer[]{1,2}, null, null, null, null, null, 0, 1, 3)) instanceof OrderInfo),
                 () -> assertTrue(orderService.findOrderWithCondition(new OrderQueryDTO(new Integer[]{1,2}, new String[]{"测试订单"}, null, null, null, null, 0, 1, 3)) instanceof OrderInfo)
                 );
-
     }
 
     @Test

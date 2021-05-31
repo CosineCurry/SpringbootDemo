@@ -6,7 +6,7 @@ import com.cosine.demo.dto.OrderQueryDTO;
 import com.github.pagehelper.PageInfo;
 
 /**
- * 类描述：订单 Service类
+ * 类描述：订单 Service接口
  *
  * @ClassName OrderService
  * @Description TODO
@@ -64,5 +64,12 @@ public interface OrderService {
      * @return String
      */
     String updatePriceById(int orderId, long price);
+
+    /**
+     * 根据id修改支付状态
+     * @param orderId
+     * @return String
+     */
+    String updatePayStatusById(int orderId);
 
 }

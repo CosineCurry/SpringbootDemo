@@ -70,4 +70,12 @@ public interface OrderDao {
      * @return int 1为成功，0为失败
      */
     int updatePriceById(@Param("orderId") int orderId, @Param("price") long price);
+
+    /**
+     * 修改订单的支付状态
+     *
+     *@param orderId 订单id
+     * @return int 1为成功，0为失败
+     */
+    int updatePayStatusById(@Param("orderId") int orderId);
 }

@@ -8,14 +8,16 @@
         <result column="order_time" property="orderTime" />
         <result column="order_paystatus" property="orderPayStatus" />
         <result column="order_deletestatus" property="orderDeleteStatus" />
+        <result column="product_id" property="productId"/>
+        <result column="product_count" property="productCount"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        order_id, order_title, order_price, order_time, order_paystatus, order_deletestatus
+        order_id, order_title, order_price, order_time, order_paystatus, order_deletestatus, product_id, product_count
     </sql>
 
     <insert id="insert" parameterType="com.cosine.demo.domain.Order">
-        insert into order_table2(order_id,order_title,order_price,order_time,order_paystatus,order_deletestatus) values (#{orderId},#{orderTitle},#{orderPrice},#{orderTime},#{orderPayStatus},#{orderDeleteStatus})
+        insert into order_table2(order_id,order_title,order_price,order_time,order_paystatus,order_deletestatus, product_id, product_count) values (#{orderId},#{orderTitle},#{orderPrice},#{orderTime},#{orderPayStatus},#{orderDeleteStatus}, #{productId}, #{productCount})
     </insert>
     
     <update id="delete">
@@ -90,6 +92,10 @@
 
     <update id="updatePriceById">
         update order_table2 set order_price = #{price} where order_id = #{orderId}
+    </update>
+
+    <update id="updatePayStatusById">
+        update order_table2 set order_paystatus = 1 where order_id = #{orderId}
     </update>
 
 </mapper>

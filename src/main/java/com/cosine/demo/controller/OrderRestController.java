@@ -36,9 +36,9 @@ public class OrderRestController {
      */
     @PostMapping("/addOrder")
     public ResResult addOrder(@RequestBody Order order) {
-        logger.info("插入一条Order数据："+order.toString());
+        logger.info("插入一条Order数据："+ order.toString());
         //数据校验
-        if (order.getOrderId() == null || order.getOrderTime() == null || order.getOrderPrice() == null || order.getOrderTitle() == null) {
+        if (order.getOrderId() == null || order.getOrderTime() == null || order.getOrderPrice() == null || order.getOrderTitle() == null || order.getProductId() == null || order.getProductCount() == null) {
             return ResResultUtil.error(301,"插入数据不能为空");
         }
         String str = orderService.addOrder(order);

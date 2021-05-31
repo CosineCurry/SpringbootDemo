@@ -2,6 +2,7 @@ package com.cosine.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -14,7 +15,10 @@ import java.util.Date;
  * @Date 2021/5/19 10:40
  * @Version 1.0
  */
-public class Order {
+public class Order implements Serializable {
+
+    private static final long serialVersionUID = -1L;
+
     /** 订单id */
     private Integer orderId;
     /** 价格 */
@@ -28,22 +32,28 @@ public class Order {
     private int orderPayStatus;
     /** 删除状态 默认为0 */
     private int orderDeleteStatus;
+    /** 商品id */
+    private Integer productId;
+    /** 商品数量 */
+    private Integer productCount;
 
     public Order() {}
-    public Order(Integer orderId, BigInteger orderPrice, Date orderTime, String orderTitle, int orderPayStatus, int orderDeleteStatus) {
+    public Order(Integer orderId, BigInteger orderPrice, Date orderTime, String orderTitle, int orderPayStatus, int orderDeleteStatus, Integer productId, Integer productCount) {
         this.orderId = orderId;
         this.orderPrice = orderPrice;
         this.orderTime = orderTime;
         this.orderTitle = orderTitle;
         this.orderPayStatus = orderPayStatus;
         this.orderDeleteStatus = orderDeleteStatus;
+        this.productId = productId;
+        this.productCount = productCount;
     }
 
     public Integer getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 
@@ -87,6 +97,22 @@ public class Order {
         this.orderDeleteStatus = orderDeleteStatus;
     }
 
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    public Integer getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(Integer productCount) {
+        this.productCount = productCount;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -96,6 +122,8 @@ public class Order {
                 ", orderTitle='" + orderTitle + '\'' +
                 ", orderPayStatus=" + orderPayStatus +
                 ", orderDeleteStatus=" + orderDeleteStatus +
+                ", productId=" + productId +
+                ", productCount=" + productCount +
                 '}';
     }
 }
