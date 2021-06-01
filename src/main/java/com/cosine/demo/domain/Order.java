@@ -1,129 +1,63 @@
 package com.cosine.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 
 /**
- * 类描述：实体类，订单类
  *
  * @ClassName Order
- * @Description TODO
+ * @Description 实体类，订单类
  * @Author cosine
  * @Date 2021/5/19 10:40
  * @Version 1.0
  */
+@ApiModel(value = "订单对象", description = "订单对象")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order implements Serializable {
 
     private static final long serialVersionUID = -1L;
 
-    /** 订单id */
+    @ApiModelProperty(value = "订单id", required = true, example = "1000")
+    @NotNull(message = "订单id不能为空")
     private Integer orderId;
-    /** 价格 */
+
+    @ApiModelProperty(value = "价格", required = true, example = "1000")
+    @Range(min = 0, message = "价格必须为正数")
     private BigInteger orderPrice;
-    /** 订单时间 */
+
+    @ApiModelProperty(value = "订单日期", required = true, example = "2020-12-12 4:30:30")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date orderTime;
-    /** 订单名称 */
+
+    @ApiModelProperty(value = "订单", required = true, example = "测试订单")
+    @NotNull(message = "订单名称不能为空")
     private String orderTitle;
+
     /** 支付状态 默认为0 */
+    @ApiModelProperty(value = "支付状态", example = "1")
     private int orderPayStatus;
+
     /** 删除状态 默认为0 */
+    @ApiModelProperty(value = "删除状态", example = "0")
     private int orderDeleteStatus;
-    /** 商品id */
+
+    @ApiModelProperty(value = "商品id", required = true, example = "1000")
+    @NotNull(message = "商品id不能为空")
     private Integer productId;
-    /** 商品数量 */
+
+    @ApiModelProperty(value = "商品数量", required = true, example = "1000")
+    @NotNull(message = "商品数量不能为空")
     private Integer productCount;
-
-    public Order() {}
-    public Order(Integer orderId, BigInteger orderPrice, Date orderTime, String orderTitle, int orderPayStatus, int orderDeleteStatus, Integer productId, Integer productCount) {
-        this.orderId = orderId;
-        this.orderPrice = orderPrice;
-        this.orderTime = orderTime;
-        this.orderTitle = orderTitle;
-        this.orderPayStatus = orderPayStatus;
-        this.orderDeleteStatus = orderDeleteStatus;
-        this.productId = productId;
-        this.productCount = productCount;
-    }
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
-    public BigInteger getOrderPrice() {
-        return orderPrice;
-    }
-
-    public void setOrderPrice(BigInteger orderPrice) {
-        this.orderPrice = orderPrice;
-    }
-
-    public Date getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(Date orderTime) {
-        this.orderTime = orderTime;
-    }
-
-    public String getOrderTitle() {
-        return orderTitle;
-    }
-
-    public void setOrderTitle(String orderTitle) {
-        this.orderTitle = orderTitle;
-    }
-
-    public int getOrderPayStatus() {
-        return orderPayStatus;
-    }
-
-    public void setOrderPayStatus(int orderPayStatus) {
-        this.orderPayStatus = orderPayStatus;
-    }
-
-    public int getOrderDeleteStatus() {
-        return orderDeleteStatus;
-    }
-
-    public void setOrderDeleteStatus(int orderDeleteStatus) {
-        this.orderDeleteStatus = orderDeleteStatus;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public Integer getProductCount() {
-        return productCount;
-    }
-
-    public void setProductCount(Integer productCount) {
-        this.productCount = productCount;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", orderPrice=" + orderPrice +
-                ", orderTime=" + orderTime +
-                ", orderTitle='" + orderTitle + '\'' +
-                ", orderPayStatus=" + orderPayStatus +
-                ", orderDeleteStatus=" + orderDeleteStatus +
-                ", productId=" + productId +
-                ", productCount=" + productCount +
-                '}';
-    }
 }

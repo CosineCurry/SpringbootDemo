@@ -15,6 +15,7 @@ import java.util.Date;
  * @Date 2021/5/24 10:35
  * @Version 1.0
  */
+
 public class OrderQueryDTO {
     /** 批量订单id查询 **/
     private Integer[] settleOrderIdArray;

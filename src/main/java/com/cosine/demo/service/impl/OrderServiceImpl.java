@@ -76,7 +76,6 @@ public class OrderServiceImpl implements OrderService {
         ValueOperations<String, Order> operations = redisTemplate.opsForValue();
         //缓存存在
         boolean hasKey = redisTemplate.hasKey(key);
-        logger.info("hasKey:"+hasKey);
 
         if (hasKey) {
             Order order = operations.get(key);
@@ -85,8 +84,8 @@ public class OrderServiceImpl implements OrderService {
         }
         //从DB中获取城市信息
         Order order = orderDao.findById(orderId);
-        //插入缓存
-        operations.set(key, order, 10, TimeUnit.SECONDS);
+        //插入缓存 后面可以设置过期时间
+        operations.set(key, order, 10, TimeUnit.HOURS);
         logger.info("订单插入缓存："+order.toString());
         return order;
     }
