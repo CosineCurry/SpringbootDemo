@@ -40,24 +40,15 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public String updateCount(int productId, int count) {
-        //先去查这个商品id的库存
-        int num = 0;
+        int res = 0;
         try {
-            num = storeDao.getNumber(productId);
-            logger.info("库存为："+num);
-        } catch (Exception e) {
-            logger.error(""+e);
-            return ResResultUtil.FAIL;
-        }
-        int total = num + count;
-        //如果购买的商品数量大于库存
-        if (total < 0) {
-            return ResResultUtil.FAIL;
-        }
-        try {
-            storeDao.updateNumber(productId, total);
+            res = storeDao.updateNumber(productId, count);
         } catch (Exception e) {
             logger.error("更新库存失败"+e);
+            return ResResultUtil.FAIL;
+        }
+
+        if (res == 0) {
             return ResResultUtil.FAIL;
         }
         return ResResultUtil.SUCCESS;

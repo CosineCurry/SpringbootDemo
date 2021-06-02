@@ -22,6 +22,7 @@
 
     <!-- "and count > 0" 使用悲观锁防止超卖 -->
     <update id="updateNumber">
-        update store set count = #{count} where product_id = #{productId} and count > 0
+        update store set count = count + #{count} where product_id = #{productId} and count + #{count} > 0
     </update>
+
 </mapper>
