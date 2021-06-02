@@ -1,33 +1,33 @@
 package com.cosine.demo.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.math.BigInteger;
-import java.util.Date;
 
 /**
- * 类描述：商品类
- *
  * @ClassName Product
- * @Description TODO
+ * @Description 商品实体类
  * @Author cosine
  * @Date 2021/5/28 10:59
  * @Version 1.0
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** 商品id，在数据库中是自增属性 */
-    private BigInteger productId;
-    /** 商品名称 */
+    @ApiModelProperty(value = "商品id", required = true, example = "1000")
+    @NotNull(message = "商品id不能为空")
+    private Integer productId;
+
+    @ApiModelProperty(value = "商品名称", required = true, example = "哇哈哈")
+    @NotNull(message = "商品名称不能为空")
     private String name;
-    /** 商品库存 */
-    private int number;
-    /** 创建时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime;
+
 }

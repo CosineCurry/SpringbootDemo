@@ -11,30 +11,11 @@
  Target Server Version : 80025
  File Encoding         : 65001
 
- Date: 31/05/2021 14:41:29
+ Date: 02/06/2021 17:25:46
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for order_table1
--- ----------------------------
-DROP TABLE IF EXISTS `order_table1`;
-CREATE TABLE `order_table1`  (
-  `order_id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `order_time` date NULL DEFAULT NULL,
-  `order_price` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`order_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of order_table1
--- ----------------------------
-INSERT INTO `order_table1` VALUES (1, NULL, NULL);
-INSERT INTO `order_table1` VALUES (2, NULL, NULL);
-INSERT INTO `order_table1` VALUES (3, NULL, NULL);
-INSERT INTO `order_table1` VALUES (4, '2021-05-17', '15');
 
 -- ----------------------------
 -- Table structure for order_table2
@@ -76,22 +57,35 @@ INSERT INTO `order_table2` VALUES (101, '测试订单', 1425000, '2021-05-17 15:
 INSERT INTO `order_table2` VALUES (103, '测试订单', 1425000, '2021-05-17 15:30:30', 0, 0, 0, 0);
 
 -- ----------------------------
--- Table structure for product_table
+-- Table structure for product
 -- ----------------------------
-DROP TABLE IF EXISTS `product_table`;
-CREATE TABLE `product_table`  (
-  `product_id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '商品ID',
-  `name` varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品名称',
-  `number` int(0) NOT NULL COMMENT '库存数量',
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  PRIMARY KEY (`product_id`) USING BTREE,
-  INDEX `idx_create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1002 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品表' ROW_FORMAT = Dynamic;
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product`  (
+  `product_id` int(0) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`product_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of product_table
+-- Records of product
 -- ----------------------------
-INSERT INTO `product_table` VALUES (1000, '哇哈哈', 800, '2021-05-26 17:40:30');
-INSERT INTO `product_table` VALUES (1001, '旺旺大礼包', 100, '2021-05-28 14:12:35');
+INSERT INTO `product` VALUES (1000, '哇哈哈');
+
+-- ----------------------------
+-- Table structure for store
+-- ----------------------------
+DROP TABLE IF EXISTS `store`;
+CREATE TABLE `store`  (
+  `store_id` int(0) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `count` int(0) NOT NULL COMMENT '库存',
+  `product_id` int(0) NOT NULL COMMENT '商品id',
+  PRIMARY KEY (`store_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of store
+-- ----------------------------
+INSERT INTO `store` VALUES (1, '哇哈哈库存', 10, 1000);
 
 SET FOREIGN_KEY_CHECKS = 1;

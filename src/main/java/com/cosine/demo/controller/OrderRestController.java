@@ -59,7 +59,7 @@ public class OrderRestController {
      * @return String 删除状态
      */
     @ApiOperation(value = "根据id删除订单")
-    @ApiImplicitParam(name = "orderId", value = "orderId", dataType = "String", paramType = "path")
+    @ApiImplicitParam(name = "orderId", value = "订单id", dataType = "String", paramType = "path")
     @GetMapping("/deleteOrder/{orderId}")
     public ResResult deleteOneOrder(@PathVariable(value = "orderId") int orderId) {
         logger.info("删除id为%d的订单",orderId);

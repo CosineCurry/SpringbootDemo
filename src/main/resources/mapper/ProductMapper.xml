@@ -4,23 +4,14 @@
     <resultMap id="BaseResultMap" type="com.cosine.demo.domain.Product">
         <result column="product_id" property="productId" />
         <result column="name" property="name" />
-        <result column="number" property="number" />
-        <result column="create_time" property="createTime" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        product_id, name, number, create_time,
+        product_id, name
     </sql>
 
-    <insert id="insertProduct" parameterType="com.cosine.demo.domain.Product">
-        insert into product_table(name, number, create_time) values (#{name}, #{number}, #{createTime})
+    <insert id="insert" parameterType="com.cosine.demo.domain.Product">
+        insert into product(product_id, name) values (#{productId}, #{name})
     </insert>
 
-    <select id="getNumber" resultType="int">
-        select number from product_table where product_id = #{productId}
-    </select>
-
-    <update id="updateNumber">
-        update product_table set number = #{num} where product_id = #{productId}
-    </update>
 </mapper>
