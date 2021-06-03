@@ -19,16 +19,16 @@ public interface StoreDao {
 
     /**
      * 更新库存
-     * @param productId 新的库存
+     * @param itemId
      * @param count 商品新的库存
      * @return int 操作结果
      */
-    int updateNumber(@Param("productId") int productId, @Param("count") int count);
+    int updateNumber(@Param("itemId") int itemId, @Param("count") int count);
 
     /**
      * 搜索库存
-     * @param productId 商品id
+     * @param itemId 商品类目id
      * @return 库存
      */
-    int getNumber(@Param("productId") int productId);
+    int getNumber(@Param("itemId") int itemId);
 }

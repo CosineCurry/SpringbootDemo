@@ -19,9 +19,9 @@ public interface StoreService {
 
     /**
      * 更新库存
-     * @param productId
+     * @param itemId 类目id
      * @param count 可正可负
      * @return
      */
-    String updateCount(int productId, int count);
+    String updateCount(int itemId, int count);
 }

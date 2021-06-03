@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @ClassName StoreServiceImpl
@@ -38,11 +39,12 @@ public class StoreServiceImpl implements StoreService {
         return ResResultUtil.FAIL;
     }
 
+    @Transactional
     @Override
-    public String updateCount(int productId, int count) {
+    public String updateCount(int itemId, int count) {
         int res = 0;
         try {
-            res = storeDao.updateNumber(productId, count);
+            res = storeDao.updateNumber(itemId, count);
         } catch (Exception e) {
             logger.error("更新库存失败"+e);
             return ResResultUtil.FAIL;

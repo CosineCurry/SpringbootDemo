@@ -7,10 +7,8 @@ import java.util.Arrays;
 import java.util.Date;
 
 /**
- * 类描述：参数条件
- *
  * @ClassName OrderQueryDTO
- * @Description TODO
+ * @Description 查询参数条件DTO
  * @Author cosine
  * @Date 2021/5/24 10:35
  * @Version 1.0

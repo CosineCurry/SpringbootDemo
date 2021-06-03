@@ -21,6 +21,7 @@ public class Store implements Serializable {
     @NotNull(message = "库存名称不能为空")
     private String name;
     private int count;
-    @NotNull(message = "商品id不能为空")
-    private Integer productId;
+    @NotNull(message = "类目id不能为空")
+    private Integer itemId;
+    private int version;
 }

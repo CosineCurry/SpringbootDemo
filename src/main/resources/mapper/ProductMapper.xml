@@ -4,14 +4,23 @@
     <resultMap id="BaseResultMap" type="com.cosine.demo.domain.Product">
         <result column="product_id" property="productId" />
         <result column="name" property="name" />
+        <result column="item_id" property="itemId" />
+        <result column="create_time" property="createTime" />
+        <result column="create_factory" property="createFactory" />
+        <result column="status" property="status" />
+        <result column="version" property="version" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        product_id, name
+        product_id, name, item_id, create_time, create_factory, status, version
     </sql>
 
     <insert id="insert" parameterType="com.cosine.demo.domain.Product">
-        insert into product(product_id, name) values (#{productId}, #{name})
+        insert into product(product_id, name, item_id, create_time, create_factory, status, version) values (#{productId}, #{name}, #{itemId}, #{createTime}, #{createFactory}, 0, 0)
     </insert>
+
+    <update id="updateStatus">
+        update product set status = 1, version = version + 1 where item_id = #{itemId} limit #{number}
+    </update>
 
 </mapper>
