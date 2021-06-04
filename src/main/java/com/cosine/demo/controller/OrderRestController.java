@@ -3,7 +3,7 @@ package com.cosine.demo.controller;
 import com.cosine.demo.common.ResResult;
 import com.cosine.demo.common.ResResultUtil;
 import com.cosine.demo.domain.Order;
-import com.cosine.demo.dto.OrderInfo;
+import com.cosine.demo.dto.OrderPageVO;
 import com.cosine.demo.dto.OrderQueryDTO;
 import com.cosine.demo.service.OrderService;
 import io.swagger.annotations.Api;
@@ -115,11 +115,11 @@ public class OrderRestController {
         if (queryDTO.getPageSize() == null) {
             queryDTO.setPageSize(5);
         }
-        OrderInfo<Order> orderInfo = orderService.findOrderWithCondition(queryDTO);
-        if (orderInfo.getList().isEmpty()) {
+        OrderPageVO<Order> orderPageVO = orderService.findOrderWithCondition(queryDTO);
+        if (orderPageVO.getList().isEmpty()) {
             return ResResultUtil.error(304,"无记录");
         }
-        return ResResultUtil.success(orderInfo);
+        return ResResultUtil.success(orderPageVO);
     }
 
     /**

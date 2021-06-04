@@ -4,7 +4,7 @@ import com.cosine.demo.common.CommonUtil;
 import com.cosine.demo.common.ResResultUtil;
 import com.cosine.demo.dao.OrderDao;
 import com.cosine.demo.domain.Order;
-import com.cosine.demo.dto.OrderInfo;
+import com.cosine.demo.dto.OrderPageVO;
 import com.cosine.demo.dto.OrderQueryDTO;
 import com.cosine.demo.service.OrderService;
 import com.github.pagehelper.PageHelper;
@@ -99,13 +99,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderInfo<Order> findOrderWithCondition(OrderQueryDTO queryDTO) {
+    public OrderPageVO<Order> findOrderWithCondition(OrderQueryDTO queryDTO) {
         List<Order> list = orderDao.findByCondition(queryDTO);
         long total = orderDao.countTotalNum(queryDTO);
         //在controller层有过保证：查出来为空数组时返回异常码
         int pageNo = queryDTO.getPageNo(), pageSize = queryDTO.getPageSize();
         boolean[] res = CommonUtil.conditionResult(pageNo, pageSize, total);
-        return new OrderInfo<>(pageNo,pageSize,total, res[0], res[1], res[2], res[3], list);
+        return new OrderPageVO<>(pageNo,pageSize,total, res[0], res[1], res[2], res[3], list);
     }
 
     @Override

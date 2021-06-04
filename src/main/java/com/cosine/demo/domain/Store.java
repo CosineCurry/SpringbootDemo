@@ -23,5 +23,7 @@ public class Store implements Serializable {
     private int count;
     @NotNull(message = "类目id不能为空")
     private Integer itemId;
+    @NotNull(message = "库存最大值不能为空")
+    private Integer maxCount;
     private int version;
 }

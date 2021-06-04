@@ -6,30 +6,30 @@
         <result column="name" property="name" />
         <result column="count" property="count" />
         <result column="item_id" property="itemId" />
+        <result column="maxCount" property="maxCount" />
         <result column="version" property="version" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        store_id, name, count, item_id, version
+        store_id, name, count, item_id, maxCount, version
     </sql>
 
     <insert id="insert" parameterType="com.cosine.demo.domain.Store">
-        insert into store(name, count, item_id, version) values (#{name}, #{count}, #{itemId}, 0)
+        insert into store(name, count, item_id, maxCount, version)
+        values (#{name}, #{count}, #{maxCount}, #{itemId}, 0)
     </insert>
 
     <select id="getNumber" resultType="int">
         select count from store where item_id = #{itemId}
     </select>
 
-    <select id="getVersion" resultType="int">
-        select version from store where item_id = #{itemId}
+    <select id="getMaxCount" resultType="int">
+        select maxCount from store where item_id = #{itemId}
     </select>
 
-    <!-- 版本控制，使用乐观锁防止超卖 -->
+    <!-- 版本控制，使用乐观锁防止超卖(业务逻辑保证事务就没必要加乐观锁了，可以在其他场景下适用) -->
     <update id="updateNumber">
-        update store set count = count + #{count}, version = version + 1
-        where item_id = #{itemId} and count + #{count} >= 0 and version =
-                                                                (select * from (select version from store where item_id = #{itemId}) as temp)
+        update store set count = count + #{count}, version = version + 1 where item_id = #{itemId}
     </update>
 
 </mapper>

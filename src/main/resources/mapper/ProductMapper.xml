@@ -20,7 +20,7 @@
     </insert>
 
     <update id="updateStatus">
-        update product set status = 1, version = version + 1 where item_id = #{itemId} limit #{number}
+        update product set status = 1, version = version + 1 where item_id = #{itemId} and status = 0 limit #{number}
     </update>
 
 </mapper>

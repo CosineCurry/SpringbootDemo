@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @ClassName StoreServiceImpl
@@ -27,30 +26,20 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public String addStore(Store store) {
-        int res = 0;
         try {
-            res = storeDao.insert(store);
+            storeDao.insert(store);
         } catch (Exception e) {
-            logger.error("插入数据失败",e);
+            logger.error("插入数据失败", e);
         }
-        if (res == 1) {
-            return ResResultUtil.SUCCESS;
-        }
-        return ResResultUtil.FAIL;
+        return ResResultUtil.SUCCESS;
     }
 
-    @Transactional
     @Override
     public String updateCount(int itemId, int count) {
-        int res = 0;
         try {
-            res = storeDao.updateNumber(itemId, count);
+            storeDao.updateNumber(itemId, count);
         } catch (Exception e) {
-            logger.error("更新库存失败"+e);
-            return ResResultUtil.FAIL;
-        }
-
-        if (res == 0) {
+            logger.error("更新库存失败", e);
             return ResResultUtil.FAIL;
         }
         return ResResultUtil.SUCCESS;

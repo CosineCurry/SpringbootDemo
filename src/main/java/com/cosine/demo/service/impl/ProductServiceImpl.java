@@ -36,24 +36,23 @@ public class ProductServiceImpl implements ProductService {
     @Transactional(rollbackFor = Exception.class)
     public String addProduct(ProductDTO productDTO) {
         /**
-         * 将以下两个动作封装为事务：
-         * 1. 商品表中增加一条记录
+         * 将以下三个动作封装为事务：
+         * 1. 先查库存，如果满足条件就执行2和3，不满足条件就抛异常
          * 2. 库存表中增加库存
+         * 3. 商品表中增加一条记录
          */
         Product product = new Product(productDTO.getProductId(), productDTO.getName(), productDTO.getItemId(), productDTO.getCreateFactory(), new Date(), 0, 0);
-        int productRes = 0, storeRes = 0;
-        try {
-            productRes = productDao.insert(product);
-            storeRes = storeDao.updateNumber(product.getItemId(), 1);
-        } catch (Exception e) {
-            logger.error("生产商品失败",e);
-            throw e;
+        int store= storeDao.getNumber(product.getItemId());
+        int maxCount = storeDao.getMaxCount(product.getItemId());
+        if (store < maxCount) {
+            storeDao.updateNumber(product.getItemId(), 1);
+            productDao.insert(product);
+        } else {
+            //抛出非受检异常
+            throw new RuntimeException();
         }
+        return ResResultUtil.SUCCESS;
 
-        if (productRes == 1 && storeRes == 1) {
-            return ResResultUtil.SUCCESS;
-        }
-        return ResResultUtil.FAIL;
     }
 
     @Override
@@ -61,26 +60,19 @@ public class ProductServiceImpl implements ProductService {
     public String consumeProducts(int itemId, int number) {
         /**
          * 将以下两个动作封装为事务：
-         * 1. 库存表中减库存（sql语句中有保证，库存要大于等于消费商品数量）
-         * 2. 商品表中逻辑删除消费量的商品
+         * 1. 先查库存，如果满足条件就执行2和3，不满足条件就抛异常
+         * 2. 库存表中减库存（sql语句中有保证，库存要大于等于消费商品数量）
+         * 3. 商品表中逻辑删除消费量的商品
          */
-        int storeRes = 0, productRes = 0;
-        try {
-            storeRes = storeDao.updateNumber(itemId, -number);
-            //经过库存的保证，商品表中一定存在大于等于这个数量的商品
-            productRes = productDao.updateStatus(itemId, number);
-        } catch (Exception e) {
-            logger.error("消费商品失败",e);
-            throw e;
-        }
-
-        if (productRes == number && storeRes == 1) {
-            return ResResultUtil.SUCCESS;
+        int store= storeDao.getNumber(itemId);
+        if (number <= store) {
+            storeDao.updateNumber(itemId, -number);
+            productDao.updateStatus(itemId, number);
         } else {
             //抛出非受检异常
             throw new RuntimeException();
         }
-
+        return ResResultUtil.SUCCESS;
     }
 
 }

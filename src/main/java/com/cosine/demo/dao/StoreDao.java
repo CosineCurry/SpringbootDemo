@@ -31,4 +31,11 @@ public interface StoreDao {
      * @return 库存
      */
     int getNumber(@Param("itemId") int itemId);
+
+    /**
+     * 搜索最大库存
+     * @param itemId 商品类目id
+     * @return 最大库存
+     */
+    int getMaxCount(@Param("itemId") int itemId);
 }

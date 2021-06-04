@@ -1,7 +1,7 @@
 package com.cosine.demo.service;
 
 import com.cosine.demo.domain.Order;
-import com.cosine.demo.dto.OrderInfo;
+import com.cosine.demo.dto.OrderPageVO;
 import com.cosine.demo.dto.OrderQueryDTO;
 import com.github.pagehelper.PageInfo;
 
@@ -54,7 +54,7 @@ public interface OrderService {
      * @param queryDTO 查询条件
      * @return OrderInfo<Order>
      */
-    OrderInfo<Order> findOrderWithCondition(OrderQueryDTO queryDTO);
+    OrderPageVO<Order> findOrderWithCondition(OrderQueryDTO queryDTO);
 
     /**
      * 根据订单id修改订单的价格
