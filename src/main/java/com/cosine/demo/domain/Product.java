@@ -26,6 +26,8 @@ public class Product implements Serializable {
 
     private String name;
 
+    private Double price;
+
     private Integer itemId;
 
     private String createFactory;

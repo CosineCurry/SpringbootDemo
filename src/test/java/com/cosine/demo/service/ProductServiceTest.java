@@ -41,7 +41,7 @@ class ProductServiceTest {
         @Override
         public void run() {
             //logger.info("进入ConsumerRunnable的run方法");
-            productService.consumeProducts(1000, 1);
+            productService.consumeByItem(1000, 1);
             logger.info(Thread.currentThread().getName()+"消费："+1);
         }
     }

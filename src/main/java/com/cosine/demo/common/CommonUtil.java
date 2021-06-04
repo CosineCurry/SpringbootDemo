@@ -1,6 +1,8 @@
 package com.cosine.demo.common;
 
-import java.math.BigInteger;
+import com.cosine.demo.dto.ProductConsumeDTO;
+
+import java.util.List;
 
 /**
  * 类描述：公共的工具类，放计算优惠等方法
@@ -13,23 +15,22 @@ import java.math.BigInteger;
  */
 public class CommonUtil {
     /**
-     * 这个方法做两件事：1、把前端传进来的“元”转为“分”；
-     *                  2、根据优惠条件判定是否有优惠。
+     * 根据优惠条件判定是否有优惠。
      * @param price 前端输入的价格
      * @return BigInteger 优惠后的价格（保存到数据库的数字）
      */
-    public static BigInteger calculateActualPrice(BigInteger price) {
+    public static Double calculateActualPrice(Double price) {
         /**
          * int的范围-2147483648 ~ 2147483647，long的范围是-9223372036854775808 （-2的63次方）~9223372036854775807 （2的63次方-1）
          * 用long是怕数值越界，数据库中金额字段是用BigInt来存，bigint范围跟java中的long一样
          */
-        long p = price.intValue() * 100L;
-        /** 优惠条件：如果前端输入的价格大于100元，打95折 */
+        long p = price.intValue();
+        /** 优惠条件：如果前端输入的价格大于10000元，打95折 */
         long boundary = 10000L;
         if (p > boundary) {
             p = (long) (p * 0.95);
         }
-        return new BigInteger(String.valueOf(p));
+        return new Double(String.valueOf(p));
     }
 
     /**
@@ -59,5 +60,13 @@ public class CommonUtil {
         res[2] = hasPreviousPage;
         res[3] = hasNextPage;
         return res;
+    }
+
+    public static Double calculateTotalPrice(List<ProductConsumeDTO> productConsumeDTOs) {
+        double sum = 0;
+        for (int i = 0; i < productConsumeDTOs.size(); i++) {
+            sum += productConsumeDTOs.get(i).getPrice();
+        }
+        return sum;
     }
 }

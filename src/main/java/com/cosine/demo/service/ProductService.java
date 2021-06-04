@@ -1,6 +1,9 @@
 package com.cosine.demo.service;
 
+import com.cosine.demo.dto.ProductConsumeDTO;
 import com.cosine.demo.dto.ProductDTO;
+
+import java.util.List;
 
 /**
  * @ClassName ProductService
@@ -19,12 +22,18 @@ public interface ProductService {
     String addProduct(ProductDTO productDTO);
 
     /**
-     * 消费若干商品
+     * 根据商品类目消费若干商品
      * @param itemIt 类目id
      * @param number 商品数量
      * @return
      */
-    String consumeProducts(int itemIt, int number);
+    String consumeByItem(int itemIt, int number);
 
+    /**
+     * 根据商品id消费若干商品
+     * @param productConsumeDTOs
+     * @return
+     */
+    String consumeProducts(List<ProductConsumeDTO> productConsumeDTOs);
 
 }

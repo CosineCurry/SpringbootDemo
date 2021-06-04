@@ -3,6 +3,9 @@ package com.cosine.demo.dao;
 import com.cosine.demo.domain.Product;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+
 /**
  * 商品 DAO 接口类
  * @Author cosine
@@ -24,4 +27,18 @@ public interface ProductDao {
      * @return 成功条数
      */
     int updateStatus(@Param("itemId") int itemId, @Param("number") int number);
+
+    /**
+     * 根据商品id搜索商品
+     * @param productIdList
+     * @return 成功条数
+     */
+    int searchProduct(@Param("productIdList") ArrayList<BigInteger> productIdList);
+
+    /**
+     * 根据商品id逻辑删除商品
+     * @param productIdList
+     * @return 成功条数
+     */
+    int updateStatusById(@Param("productIdList") ArrayList<BigInteger> productIdList);
 }

@@ -3,46 +3,41 @@
 <mapper namespace="com.cosine.demo.dao.OrderDao">
     <resultMap id="BaseResultMap" type="com.cosine.demo.domain.Order">
         <result column="order_id" property="orderId" />
-        <result column="order_title" property="orderTitle" />
         <result column="order_price" property="orderPrice" />
-        <result column="order_time" property="orderTime" />
-        <result column="order_paystatus" property="orderPayStatus" />
-        <result column="order_deletestatus" property="orderDeleteStatus" />
-        <result column="product_id" property="productId"/>
-        <result column="product_count" property="productCount"/>
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="pay_status" property="payStatus" />
+        <result column="order_status" property="orderStatus" />
+        <result column="user_id" property="userId"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        order_id, order_title, order_price, order_time, order_paystatus, order_deletestatus, product_id, product_count
+        order_id, order_price, create_time, update_time, pay_status, order_status, user_id
     </sql>
 
     <insert id="insert" parameterType="com.cosine.demo.domain.Order">
-        insert into order_table2(order_id,order_title,order_price,order_time,order_paystatus,order_deletestatus, product_id, product_count) values (#{orderId},#{orderTitle},#{orderPrice},#{orderTime},#{orderPayStatus},#{orderDeleteStatus}, #{productId}, #{productCount})
+        insert into order_table(order_id, order_price, create_time, update_time, pay_status, order_status, user_id)
+        values (#{orderId},#{orderPrice},#{createTime},#{updateTime}, #{payStatus}, #{payStatus}, #{userId})
     </insert>
-    
+
     <update id="delete">
-        update order_table2 set order_deletestatus=1 where order_id = #{orderId}
+        update order_table set order_status = 1 where order_id = #{orderId}
     </update>
 
     <select id="findById" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/> from order_table2 where order_id = #{orderId} and order_deletestatus = 0
+        select <include refid="Base_Column_List"/> from order_table
+        where order_id = #{orderId} and order_status = 0
     </select>
-    
+
     <select id="findAllByPage" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/> from order_table2 where order_deletestatus = 0
+        select <include refid="Base_Column_List"/> from order_table where order_status = 0
     </select>
 
     <select id="findByCondition" resultMap="BaseResultMap" parameterType="com.cosine.demo.dto.OrderQueryDTO">
-        select <include refid="Base_Column_List"/> from order_table2 where order_deletestatus = 0
+        select <include refid="Base_Column_List"/> from order_table where order_status = 0
         <if test="settleOrderIdArray != null and settleOrderIdArray.length != 0">
             and order_id in
             <foreach collection="settleOrderIdArray" item="value" separator="," open="(" close=")">
-                #{value}
-            </foreach>
-        </if>
-        <if test="orderTitleArray != null and settleOrderIdArray.length != 0">
-            and order_id in
-            <foreach collection="orderTitleArray" item="value" separator="," open="(" close=")">
                 #{value}
             </foreach>
         </if>
@@ -53,26 +48,20 @@
             and #{orderPriceEnd} >= order_price
         </if>
         <if test="orderTimeStart != null">
-            and order_time >= #{orderTimeStart}
+            and create_time >= #{orderTimeStart}
         </if>
         <if test="orderTimeEnd != null">
-            and #{orderTimeEnd} >= order_time
+            and #{orderTimeEnd} >= create_time
         </if>
         limit #{offset}, #{pageSize}
 
     </select>
 
     <select id="countTotalNum" resultType="java.lang.Long" parameterType="com.cosine.demo.dto.OrderQueryDTO">
-        select count(1) from order_table2 where order_deletestatus = 0
+        select count(1) from order_table where order_status = 0
         <if test="settleOrderIdArray != null and settleOrderIdArray.length != 0">
             and order_id in
             <foreach collection="settleOrderIdArray" item="value" separator="," open="(" close=")">
-                #{value}
-            </foreach>
-        </if>
-        <if test="orderTitleArray != null and settleOrderIdArray.length != 0">
-            and order_id in
-            <foreach collection="orderTitleArray" item="value" separator="," open="(" close=")">
                 #{value}
             </foreach>
         </if>
@@ -83,19 +72,19 @@
             and #{orderPriceEnd} >= order_price
         </if>
         <if test="orderTimeStart != null">
-            and order_time >= #{orderTimeStart}
+            and create_time >= #{orderTimeStart}
         </if>
         <if test="orderTimeEnd != null">
-            and #{orderTimeEnd} >= order_time
+            and #{orderTimeEnd} >= create_time
         </if>
     </select>
 
     <update id="updatePriceById">
-        update order_table2 set order_price = #{price} where order_id = #{orderId}
+        update order_table set order_price = #{orderPrice} where order_id = #{orderId}
     </update>
 
     <update id="updatePayStatusById">
-        update order_table2 set order_paystatus = 1 where order_id = #{orderId}
+        update order_table set pay_status = 1 where order_id = #{orderId}
     </update>
 
 </mapper>

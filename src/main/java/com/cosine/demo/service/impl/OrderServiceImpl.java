@@ -110,16 +110,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String updatePriceById(int orderId, long price) {
-        int tmp = orderDao.updatePriceById(orderId, price);
-        if (tmp == 0) {return ResResultUtil.FAIL;}
+        orderDao.updatePriceById(orderId, price);
         return ResResultUtil.SUCCESS;
 
     }
 
     @Override
     public String updatePayStatusById(int orderId) {
-        int tmp = orderDao.updatePayStatusById(orderId);
-        if (tmp == 0) {return ResResultUtil.FAIL;}
+        orderDao.updatePayStatusById(orderId);
         return ResResultUtil.SUCCESS;
     }
 

@@ -31,33 +31,29 @@ public class Order implements Serializable {
 
     @ApiModelProperty(value = "订单id", required = true, example = "1000")
     @NotNull(message = "订单id不能为空")
-    private Integer orderId;
+    private BigInteger orderId;
 
     @ApiModelProperty(value = "价格", required = true, example = "1000")
     @Range(min = 0, message = "价格必须为正数")
-    private BigInteger orderPrice;
+    private Double orderPrice;
 
-    @ApiModelProperty(value = "订单日期", required = true, example = "2020-12-12 4:30:30")
+    @ApiModelProperty(value = "订单创建日期", required = true, example = "2020-12-12 4:30:30")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date orderTime;
+    private Date createTime;
 
-    @ApiModelProperty(value = "订单", required = true, example = "测试订单")
-    @NotNull(message = "订单名称不能为空")
-    private String orderTitle;
+    @ApiModelProperty(value = "订单更新日期", required = true, example = "2020-12-12 4:30:30")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date updateTime;
 
     /** 支付状态 默认为0 */
-    @ApiModelProperty(value = "支付状态", example = "1")
-    private int orderPayStatus;
+    @ApiModelProperty(value = "支付状态", example = "0")
+    private int payStatus;
 
-    /** 删除状态 默认为0 */
-    @ApiModelProperty(value = "删除状态", example = "0")
-    private int orderDeleteStatus;
+    /** 订单状态 0为正常，1为取消订单，默认为0 */
+    @ApiModelProperty(value = "订单状态", example = "0")
+    private int orderStatus;
 
-    @ApiModelProperty(value = "商品id", required = true, example = "1000")
-    @NotNull(message = "商品id不能为空")
-    private Integer productId;
-
-    @ApiModelProperty(value = "商品数量", required = true, example = "1000")
-    @NotNull(message = "商品数量不能为空")
-    private Integer productCount;
+    @ApiModelProperty(value = "用户id", required = true, example = "1000")
+    @NotNull(message = "用户id不能为空")
+    private BigInteger userId;
 }
