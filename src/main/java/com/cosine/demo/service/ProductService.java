@@ -2,6 +2,8 @@ package com.cosine.demo.service;
 
 import com.cosine.demo.dto.ProductConsumeDTO;
 import com.cosine.demo.dto.ProductDTO;
+import com.cosine.demo.dto.ProductVO;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -20,6 +22,15 @@ public interface ProductService {
      * @return
      */
     String addProduct(ProductDTO productDTO);
+
+    /**
+     * 查找所有商品
+     *
+     * @param page 当前页码
+     * @param offset 每页条数
+     * @return PageInfo<Order>
+     */
+    PageInfo<ProductVO> findAllProductsByPage(int page, int offset);
 
     /**
      * 根据商品类目消费若干商品

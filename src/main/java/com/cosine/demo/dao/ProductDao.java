@@ -1,10 +1,12 @@
 package com.cosine.demo.dao;
 
 import com.cosine.demo.domain.Product;
+import com.cosine.demo.dto.ProductVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 商品 DAO 接口类
@@ -19,6 +21,13 @@ public interface ProductDao {
      * @return int 1为成功插入，0插入失败
      */
     int insert(Product product);
+
+    /**
+     * 查找所有商品
+     *
+     * @return List<Order> 商品list
+     */
+    List<ProductVO> findAllByPage();
 
     /**
      * 逻辑删除一个商品

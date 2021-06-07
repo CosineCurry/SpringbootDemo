@@ -12,6 +12,14 @@
         <result column="version" property="version" />
     </resultMap>
 
+    <resultMap id="ProductVOResultMap" type="com.cosine.demo.dto.ProductVO">
+        <result column="product_id" property="productId" />
+        <result column="name" property="name" />
+        <result column="price" property="price" />
+        <result column="item_id" property="productItemId" />
+        <result column="create_factory" property="createFactory" />
+    </resultMap>
+
     <sql id="Base_Column_List">
         product_id, name, price, item_id, create_time, create_factory, status, version
     </sql>
@@ -19,6 +27,10 @@
     <insert id="insert" parameterType="com.cosine.demo.domain.Product">
         insert into product(product_id, name, price, item_id, create_time, create_factory, status, version) values (#{productId}, #{name}, #{price}, #{itemId}, #{createTime}, #{createFactory}, 0, 0)
     </insert>
+
+    <select id="findAllByPage" resultMap="ProductVOResultMap">
+        select product_id, name, price, item_id, create_factory from product where status = 0
+    </select>
 
     <update id="updateStatus">
         update product set status = 1, version = version + 1 where item_id = #{itemId} and status = 0 limit #{number}

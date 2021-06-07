@@ -11,7 +11,10 @@ import com.cosine.demo.domain.OrderItem;
 import com.cosine.demo.domain.Product;
 import com.cosine.demo.dto.ProductConsumeDTO;
 import com.cosine.demo.dto.ProductDTO;
+import com.cosine.demo.dto.ProductVO;
 import com.cosine.demo.service.ProductService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +72,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public PageInfo<ProductVO> findAllProductsByPage(int page, int offset) {
+        //这句是核心
+        PageHelper.startPage(page, offset);
+        List<ProductVO> all = productDao.findAllByPage();
+        return new PageInfo<>(all);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public String consumeByItem(int itemId, int number) {
         /**
@@ -92,6 +103,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional(rollbackFor = Exception.class)
     public String consumeProducts(List<ProductConsumeDTO> productConsumeDTOs) {
         /**
+         * 拆分业务，有些方法不用放到事务中，比如1和2，提高性能。
          * 将以下几个动作封装为事务：
          * 1. 先查库存，如果商品还存在于库存（没被锁单）就继续执行，不满足条件就抛异常
          * 2. 计算总价

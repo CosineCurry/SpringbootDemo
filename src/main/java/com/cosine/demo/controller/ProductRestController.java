@@ -55,6 +55,18 @@ public class ProductRestController {
         return ResResultUtil.error(302,"插入数据失败");
     }
 
+    /**
+     * 利用插件PageHelper分页查询
+     * @param page 当前页码
+     * @param offset 页容量
+     * @return PageInfo<Order> PageHelper封装的订单数组
+     */
+    @ApiOperation(value = "插件分页查询")
+    @GetMapping("/findAllProductsByPageHelper")
+    public ResResult findAllProductsByPageHelper(@RequestParam(value = "当前页码") int page, @RequestParam(value = "每页数量") int offset) {
+        return ResResultUtil.success(productService.findAllProductsByPage(page, offset));
+    }
+
 
     /**
      * 根据商品类目消费商品
