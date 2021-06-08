@@ -5,8 +5,6 @@ import com.cosine.demo.dto.ProductDTO;
 import com.cosine.demo.dto.ProductVO;
 import com.github.pagehelper.PageInfo;
 
-import java.util.List;
-
 /**
  * @ClassName ProductService
  * @Description 商品 Service接口
@@ -42,9 +40,9 @@ public interface ProductService {
 
     /**
      * 根据商品id消费若干商品
-     * @param productConsumeDTOs
+     * @param productConsumeDTO
      * @return
      */
-    String consumeProducts(List<ProductConsumeDTO> productConsumeDTOs);
+    String consumeProducts(ProductConsumeDTO productConsumeDTO);
 
 }

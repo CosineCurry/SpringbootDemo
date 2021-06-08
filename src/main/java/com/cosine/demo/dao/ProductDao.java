@@ -49,5 +49,5 @@ public interface ProductDao {
      * @param productIdList
      * @return 成功条数
      */
-    int updateStatusById(@Param("productIdList") ArrayList<BigInteger> productIdList);
+    Integer updateStatusById(@Param("productIdList") ArrayList<BigInteger> productIdList);
 }

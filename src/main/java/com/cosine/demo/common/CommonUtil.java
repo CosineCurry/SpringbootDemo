@@ -1,36 +1,45 @@
 package com.cosine.demo.common;
 
-import com.cosine.demo.dto.ProductConsumeDTO;
+import com.cosine.demo.coupon.Context;
+import com.cosine.demo.coupon.MJCouponDiscount;
+import com.cosine.demo.coupon.ZJCouponDiscount;
+import com.cosine.demo.coupon.ZKCouponDiscount;
+import com.cosine.demo.dto.ProductDTO;
 
 import java.util.List;
 
 /**
- * 类描述：公共的工具类，放计算优惠等方法
- *
  * @ClassName CommonUtil
- * @Description TODO
+ * @Description 公共的工具类
  * @Author cosine
  * @Date 2021/5/26 18:30
  * @Version 1.0
  */
 public class CommonUtil {
     /**
-     * 根据优惠条件判定是否有优惠。
-     * @param price 前端输入的价格
-     * @return BigInteger 优惠后的价格（保存到数据库的数字）
+     * 根据优惠条件判定是否有优惠，discountType为0时没有优惠，1满（100）减（10），2直减（10），3折扣（九折）。
+     * @param discountType 打折类型
+     * @param price 打折前的价格
+     * @return Double 优惠后的价格（保存到数据库的数字）
      */
-    public static Double calculateActualPrice(Double price) {
-        /**
-         * int的范围-2147483648 ~ 2147483647，long的范围是-9223372036854775808 （-2的63次方）~9223372036854775807 （2的63次方-1）
-         * 用long是怕数值越界，数据库中金额字段是用BigInt来存，bigint范围跟java中的long一样
-         */
-        long p = price.intValue();
-        /** 优惠条件：如果前端输入的价格大于10000元，打95折 */
-        long boundary = 10000L;
-        if (p > boundary) {
-            p = (long) (p * 0.95);
+    public static Double calculatePrice(int discountType, Double price) {
+
+        if (discountType == 0) {
+            return price;
+        } else if (discountType == 1) {
+            Double[] array = new Double[2];
+            array[0] = 100.0;
+            array[1] = 10.0;
+            Context<Double[]> context = new Context(new MJCouponDiscount());
+            return context.calculateActualPrice(array, price);
+        } else if (discountType == 2) {
+            Context<Double> context = new Context<>(new ZJCouponDiscount());
+            return context.calculateActualPrice(Double.valueOf(10), price);
+        } else {
+            Context<Double> context = new Context<>(new ZKCouponDiscount());
+            return  context.calculateActualPrice(0.9, price);
         }
-        return new Double(String.valueOf(p));
+
     }
 
     /**
@@ -62,10 +71,10 @@ public class CommonUtil {
         return res;
     }
 
-    public static Double calculateTotalPrice(List<ProductConsumeDTO> productConsumeDTOs) {
+    public static Double calculateTotalPrice(List<ProductDTO> productDTOs) {
         double sum = 0;
-        for (int i = 0; i < productConsumeDTOs.size(); i++) {
-            sum += productConsumeDTOs.get(i).getPrice();
+        for (int i = 0; i < productDTOs.size(); i++) {
+            sum += productDTOs.get(i).getPrice();
         }
         return sum;
     }

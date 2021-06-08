@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
          * 2. 库存表中增加库存
          * 3. 商品表中增加一条记录
          */
-        Product product = new Product(productDTO.getProductId(), productDTO.getName(), new Double(String.valueOf(3)),productDTO.getItemId(), productDTO.getCreateFactory(), new Date(), 0, 0);
+        Product product = new Product(productDTO.getProductId(), productDTO.getName(), productDTO.getPrice(),productDTO.getItemId(), productDTO.getCreateFactory(), new Date(), 0, 0);
         int store= storeDao.getNumber(product.getItemId());
         int maxCount = storeDao.getMaxCount(product.getItemId());
         if (store < maxCount) {
@@ -101,12 +101,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String consumeProducts(List<ProductConsumeDTO> productConsumeDTOs) {
+    public String consumeProducts(ProductConsumeDTO productConsumeDTO) {
         /**
          * 拆分业务，有些方法不用放到事务中，比如1和2，提高性能。
          * 将以下几个动作封装为事务：
          * 1. 先查库存，如果商品还存在于库存（没被锁单）就继续执行，不满足条件就抛异常
-         * 2. 计算总价
+         * 2. 计算总价，计算优惠后的价格
          * 3. 生成订单，加入数据库（订单表和订单Item表，一对多）
          * 4. 库存表中减库存
          * 5. 商品表中逻辑删除消费量的商品
@@ -114,25 +114,30 @@ public class ProductServiceImpl implements ProductService {
          */
 
         ArrayList<BigInteger> arrayList = new ArrayList<>();
-        for (int i = 0; i < productConsumeDTOs.size(); i++) {
-            arrayList.add(productConsumeDTOs.get(i).getProductId());
+        for (int i = 0; i < productConsumeDTO.getProductDTOS().size(); i++) {
+            arrayList.add(productConsumeDTO.getProductDTOS().get(i).getProductId());
         }
         int res = productDao.searchProduct(arrayList);
         logger.info("查询得到总共"+res+"条商品数据");
-        if (res == productConsumeDTOs.size()) {
+        if (res == productConsumeDTO.getProductDTOS().size()) {
             //计算总价
-            Double totalPrice = CommonUtil.calculateTotalPrice(productConsumeDTOs);
+            Double price = CommonUtil.calculateTotalPrice(productConsumeDTO.getProductDTOS());
+            //计算优惠后的价格
+            Integer discountType = productConsumeDTO.getDiscountType();
+            Double totalPrice = CommonUtil.calculatePrice(discountType, price);
             //生成订单主表
             BigInteger orderId = new BigInteger(String.valueOf(System.currentTimeMillis()));
             Date time = new Date();
-            BigInteger userId = productConsumeDTOs.get(0).getUserId();
-            orderDao.insert(new Order(orderId, totalPrice, time, time, 0, 0, userId));
+            BigInteger userId = productConsumeDTO.getUserId();
+            orderDao.insert(new Order(orderId, totalPrice, time, time, 0, 0, userId, discountType));
             //生成订单项
             for (int i = 0; i < res; i++) {
-                orderItemDao.insert(new OrderItem(new BigInteger(String.valueOf(0)),orderId, productConsumeDTOs.get(i).getProductId(), productConsumeDTOs.get(i).getPrice()));
+                orderItemDao.insert(new OrderItem(new BigInteger(String.valueOf(0)),orderId, productConsumeDTO.getProductDTOS().get(i).getProductId(), productConsumeDTO.getProductDTOS().get(i).getPrice()));
             }
             //减库存（商品表和库存表）
-            storeDao.updateNumber(productConsumeDTOs.get(0).getProductItemId(), -res);
+            for (int i = 0; i < res; i++) {
+                storeDao.updateNumber(productConsumeDTO.getProductDTOS().get(i).getItemId(), -1);
+            }
             productDao.updateStatusById(arrayList);
             return ResResultUtil.SUCCESS;
         } else {

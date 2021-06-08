@@ -1,10 +1,12 @@
 package com.cosine.demo.controller;
 
 import com.cosine.demo.dao.ProductDao;
+import com.cosine.demo.dao.StoreDao;
 import com.cosine.demo.domain.Product;
 import com.cosine.demo.dto.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,8 @@ public class ProduceController {
 
     @Autowired
     private ProductDao productDao;
+    @Autowired
+    private StoreDao storeDao;
 
     /**
      * 生产者首页
@@ -41,6 +45,7 @@ public class ProduceController {
 
     /**
      * 添加商品页面
+     * 封装为事务
      * @param productVO
      * @return
      */
@@ -49,14 +54,23 @@ public class ProduceController {
         return "add-product";
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @PostMapping("addProduct")
     public String addProduct(@Valid ProductVO productVO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "add-product";
         }
         Product product = new Product(productVO.getProductId(), productVO.getName(), productVO.getPrice(), productVO.getProductItemId(), productVO.getCreateFactory(), new Date(), 0, 0);
-        productDao.insert(product);
-        return "redirect:productHome";
+        int store= storeDao.getNumber(product.getItemId());
+        int maxCount = storeDao.getMaxCount(product.getItemId());
+        if (store < maxCount) {
+            storeDao.updateNumber(product.getItemId(), 1);
+            productDao.insert(product);
+        } else {
+            //抛出非受检异常
+            throw new RuntimeException();
+        }
+        return "redirect:produceHome";
     }
 
 

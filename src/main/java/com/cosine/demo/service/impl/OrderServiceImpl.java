@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public String addOrder(Order order) {
         //计算优惠，并重新设置金额。
-        order.setOrderPrice(CommonUtil.calculateActualPrice(order.getOrderPrice()));
+        order.setOrderPrice(CommonUtil.calculatePrice(order.getDiscountType(), order.getOrderPrice()));
         int res = 0;
         try {
             res = orderDao.insert(order);

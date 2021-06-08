@@ -56,4 +56,8 @@ public class Order implements Serializable {
     @ApiModelProperty(value = "用户id", required = true, example = "1000")
     @NotNull(message = "用户id不能为空")
     private BigInteger userId;
+
+    @ApiModelProperty(value = "折扣类型", required = true, example = "0")
+    @NotNull(message = "折扣类型不能为空")
+    private Integer discountType;
 }

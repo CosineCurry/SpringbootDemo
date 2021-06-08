@@ -1,10 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>消费者首页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+          crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="../css/shards.min.css"> -->
+    <script type="text/javascript" src="http://hovertree.com/ziyuan/jquery/jquery-1.11.3.min.js"></script>
 </head>
 <body>
-    <p>欢迎来到消费者首页！</p>
+<div class="container my-2">
+    <div class="card">
+        <div class="card-body">
+            <div th:switch="${products}" class="container my-5">
+                <div class="col-md-10">
+                    <h2 th:case="null">没有商品！</h2>
+                    <div th:case="*">
+                        <table class="table table-striped table-responsive-md">
+                            <thead>
+                            <tr>
+                                <th>选择</th>
+                                <th>商品唯一标识</th>
+                                <th>名称</th>
+                                <th>价格</th>
+                                <th>商品类目</th>
+                                <th>生产厂商</th>
+                            </tr>
+                            <tr th:each="product : ${products}">
+                                <td>
+                                    <input type="checkbox"
+                                           class="ads_Checkbox1"
+                                           th:value="${product}"
+                                           name="checkedoj"/>
+                                </td>
+                                <td th:text="${product.productId}"></td>
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${product.productItemId}"></td>
+                                <td th:text="${product.price}"></td>
+                                <td th:text="${product.createFactory}"></td>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="printBtn" class="btn btn-info  mb_1em" type="button" onclick="return printDetails()">购买</button>
+    </div>
+</div>
 </body>
+
+<script>
+    function printDetails() {
+        //定义一个空数组
+        let checkID = [];
+        //把所有被选中的复选框的值存入数组
+        $("input[name='checkedoj']:checked").each(function (i) {
+            checkID[i] = $(this).val();
+            console.log(checkID);
+        });
+    }
+</script>
 </html>

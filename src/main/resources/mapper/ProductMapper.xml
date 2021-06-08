@@ -47,7 +47,7 @@
 
     </select>
 
-    <select id="updateStatusById" parameterType="arraylist">
+    <select id="updateStatusById" parameterType="arraylist" resultType="integer">
         update product set status = 1, version = version + 1 where status = 0
         <if test="productIdList != null and productIdList.size() != 0">
             and product_id in

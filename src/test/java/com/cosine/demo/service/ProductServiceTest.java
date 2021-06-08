@@ -29,7 +29,7 @@ class ProductServiceTest {
         public void run() {
             //使用毫秒级别的时间戳生成商品id （long）
             long productId = System.currentTimeMillis();
-            ProductDTO productDTO = new ProductDTO(new BigInteger(String.valueOf(productId)), "哇哈哈矿泉水", 1000, Thread.currentThread().getName());
+            ProductDTO productDTO = new ProductDTO(new BigInteger(String.valueOf(productId)), "哇哈哈矿泉水", 3.0,1000, Thread.currentThread().getName());
             productService.addProduct(productDTO);
             logger.info(Thread.currentThread().getName()+"生产："+1);
         }

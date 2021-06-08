@@ -9,15 +9,16 @@
         <result column="pay_status" property="payStatus" />
         <result column="order_status" property="orderStatus" />
         <result column="user_id" property="userId"/>
+        <result column="discount_type" property="discountType"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        order_id, order_price, create_time, update_time, pay_status, order_status, user_id
+        order_id, order_price, create_time, update_time, pay_status, order_status, user_id, discount_type
     </sql>
 
     <insert id="insert" parameterType="com.cosine.demo.domain.Order">
-        insert into order_table(order_id, order_price, create_time, update_time, pay_status, order_status, user_id)
-        values (#{orderId},#{orderPrice},#{createTime},#{updateTime}, #{payStatus}, #{payStatus}, #{userId})
+        insert into order_table(order_id, order_price, create_time, update_time, pay_status, order_status, user_id, discount_type)
+        values (#{orderId},#{orderPrice},#{createTime},#{updateTime}, #{payStatus}, #{payStatus}, #{userId}, #{discountType})
     </insert>
 
     <update id="delete">

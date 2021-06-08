@@ -16,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * @ClassName ProductRestController
@@ -91,17 +90,17 @@ public class ProductRestController {
 
     /**
      * 根据商品id消费商品
-     * @param productConsumeDTOs 商品列表
+     * @param productConsumeDTO 商品列表
      * @return
      */
     @ApiOperation(value = "消费接口2", notes = "消费接口2的说明")
     @PostMapping("/consumeProducts")
-    public ResResult consumeProducts(@RequestBody @Valid List<ProductConsumeDTO> productConsumeDTOs, BindingResult bindingResult) {
+    public ResResult consumeProducts(@RequestBody @Valid ProductConsumeDTO productConsumeDTO, BindingResult bindingResult) {
         //数据校验
-        if (productConsumeDTOs.isEmpty() || bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return ResResultUtil.error(301, bindingResult.getFieldError().getDefaultMessage());
         }
-        String str = productService.consumeProducts(productConsumeDTOs);
+        String str = productService.consumeProducts(productConsumeDTO);
         if (str.equals(ResResultUtil.FAIL)) {
             return ResResultUtil.error(305,"购买失败");
         }

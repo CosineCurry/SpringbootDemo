@@ -16,7 +16,7 @@
 
     <insert id="insert" parameterType="com.cosine.demo.domain.Store">
         insert into store(name, count, item_id, maxCount, version)
-        values (#{name}, #{count}, #{maxCount}, #{itemId}, 0)
+        values (#{name}, #{count}, #{itemId}, #{maxCount}, 0)
     </insert>
 
     <select id="getNumber" resultType="int">

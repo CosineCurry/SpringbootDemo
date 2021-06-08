@@ -30,6 +30,10 @@ public class ProductDTO implements Serializable {
     @NotNull(message = "商品名称不能为空")
     private String name;
 
+    @ApiModelProperty(value = "商品价格", required = true, example = "3")
+    @NotNull(message = "商品价格不能为空")
+    private Double price;
+
     @ApiModelProperty(value = "商品类目id", required = true, example = "1000")
     @NotNull(message = "商品类目id不能为空")
     private Integer itemId;
