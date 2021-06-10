@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -35,7 +36,7 @@ public class Order implements Serializable {
 
     @ApiModelProperty(value = "价格", required = true, example = "1000")
     @Range(min = 0, message = "价格必须为正数")
-    private Double orderPrice;
+    private BigDecimal orderPrice;
 
     @ApiModelProperty(value = "订单创建日期", required = true, example = "2020-12-12 4:30:30")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

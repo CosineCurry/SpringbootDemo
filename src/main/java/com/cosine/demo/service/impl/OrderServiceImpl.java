@@ -16,6 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -42,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public String addOrder(Order order) {
         //计算优惠，并重新设置金额。
-        order.setOrderPrice(CommonUtil.calculatePrice(order.getDiscountType(), order.getOrderPrice()));
+        order.setOrderPrice(new CommonUtil().calculatePrice(order.getDiscountType(), new Double(10), order.getOrderPrice()));
         int res = 0;
         try {
             res = orderDao.insert(order);
@@ -109,7 +110,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String updatePriceById(int orderId, long price) {
+    public String updatePriceById(int orderId, BigDecimal price) {
         orderDao.updatePriceById(orderId, price);
         return ResResultUtil.SUCCESS;
 

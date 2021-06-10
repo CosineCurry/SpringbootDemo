@@ -1,7 +1,7 @@
 package com.cosine.demo.dao;
 
 import com.cosine.demo.domain.Product;
-import com.cosine.demo.dto.ProductVO;
+import com.cosine.demo.dto.ProductDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigInteger;
@@ -27,7 +27,7 @@ public interface ProductDao {
      *
      * @return List<Order> 商品list
      */
-    List<ProductVO> findAllByPage();
+    List<ProductDTO> findAllByPage();
 
     /**
      * 逻辑删除一个商品
@@ -38,7 +38,7 @@ public interface ProductDao {
     int updateStatus(@Param("itemId") int itemId, @Param("number") int number);
 
     /**
-     * 根据商品id搜索商品
+     * 根据商品id搜索商品个数
      * @param productIdList
      * @return 成功条数
      */
@@ -50,4 +50,11 @@ public interface ProductDao {
      * @return 成功条数
      */
     Integer updateStatusById(@Param("productIdList") ArrayList<BigInteger> productIdList);
+
+    /**
+     * 根据商品id搜索商品
+     * @param productIdList
+     * @return
+     */
+    List<ProductDTO> findProductsByIds(@Param("productIdList") ArrayList<BigInteger> productIdList);
 }

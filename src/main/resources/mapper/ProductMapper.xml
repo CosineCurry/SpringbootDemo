@@ -12,11 +12,11 @@
         <result column="version" property="version" />
     </resultMap>
 
-    <resultMap id="ProductVOResultMap" type="com.cosine.demo.dto.ProductVO">
+    <resultMap id="ProductDTOResultMap" type="com.cosine.demo.dto.ProductDTO">
         <result column="product_id" property="productId" />
         <result column="name" property="name" />
         <result column="price" property="price" />
-        <result column="item_id" property="productItemId" />
+        <result column="item_id" property="itemId" />
         <result column="create_factory" property="createFactory" />
     </resultMap>
 
@@ -28,7 +28,7 @@
         insert into product(product_id, name, price, item_id, create_time, create_factory, status, version) values (#{productId}, #{name}, #{price}, #{itemId}, #{createTime}, #{createFactory}, 0, 0)
     </insert>
 
-    <select id="findAllByPage" resultMap="ProductVOResultMap">
+    <select id="findAllByPage" resultMap="ProductDTOResultMap">
         select product_id, name, price, item_id, create_factory from product where status = 0
     </select>
 
@@ -56,6 +56,16 @@
             </foreach>
         </if>
 
+    </select>
+
+    <select id="findProductsByIds" parameterType="arraylist" resultMap="ProductDTOResultMap">
+        select product_id, name, price, item_id, create_factory from product where status = 0
+        <if test="productIdList != null and productIdList.size() != 0">
+            and product_id in
+            <foreach collection="productIdList" item="value" separator="," open="(" close=")">
+                #{value}
+            </foreach>
+        </if>
     </select>
 
 </mapper>

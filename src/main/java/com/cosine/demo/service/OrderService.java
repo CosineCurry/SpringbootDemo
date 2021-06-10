@@ -5,6 +5,8 @@ import com.cosine.demo.dto.OrderPageVO;
 import com.cosine.demo.dto.OrderQueryDTO;
 import com.github.pagehelper.PageInfo;
 
+import java.math.BigDecimal;
+
 /**
  * 类描述：订单 Service接口
  *
@@ -63,7 +65,7 @@ public interface OrderService {
      * @param price 修改后的价格
      * @return String
      */
-    String updatePriceById(int orderId, long price);
+    String updatePriceById(int orderId, BigDecimal price);
 
     /**
      * 根据id修改支付状态

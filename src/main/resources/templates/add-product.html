@@ -23,7 +23,7 @@
             <div class="card-body">
                 <div class="col-md-10">
                     <form action="#" th:action="@{/produce/addProduct}"
-                          th:object="${productVO}" method="post">
+                          th:object="${productDTO}" method="post">
                         <div class="row">
                             <div class="form-group col-md-8">
                                 <label for="productId" class="col-form-label">唯一标识</label> <input
@@ -41,9 +41,9 @@
                             </div>
                             <div class="form-group col-md-8">
                                 <label for="productItemId" class="col-form-label">商品类目id</label> <input
-                                    type="text" th:field="*{productItemId}" class="form-control" id="productItemId"
+                                    type="text" th:field="*{itemId}" class="form-control" id="productItemId"
                                     placeholder="1000"> <span
-                                    th:if="${#fields.hasErrors('productItemId')}" th:errors="*{productItemId}"
+                                    th:if="${#fields.hasErrors('itemId')}" th:errors="*{itemId}"
                                     class="text-danger"></span>
                             </div>
                             <div class="form-group col-md-8">

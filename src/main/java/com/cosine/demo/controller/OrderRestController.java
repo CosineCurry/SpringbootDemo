@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 
 /**
  * @ClassName OrderRestController
@@ -130,8 +131,8 @@ public class OrderRestController {
      */
     @ApiOperation(value = "修改订单价格")
     @GetMapping("/updatePrice")
-    public ResResult changePriceById(@RequestParam(value = "orderId") int orderId, @RequestParam(value = "price") long price) {
-        String str = orderService.updatePriceById(orderId, price);
+    public ResResult changePriceById(@RequestParam(value = "orderId") int orderId, @RequestParam(value = "price") String price) {
+        String str = orderService.updatePriceById(orderId, new BigDecimal(price));
         if (str.equals(ResResultUtil.FAIL)) {
             return ResResultUtil.error(305,"修改价格失败");
         }

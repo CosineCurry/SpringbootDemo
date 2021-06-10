@@ -1,4 +1,7 @@
 package com.cosine.demo.coupon;
+
+import java.math.BigDecimal;
+
 /**
  * @ClassName CommonUtil
  * @Description 利用策略模式计算优惠
@@ -9,10 +12,9 @@ package com.cosine.demo.coupon;
 public interface Strategy<T> {
     /**
      * 计算优惠的接口方法
-     * @param couponInfo 优惠信息
      * @param price 优惠前的价格
      * @return 优惠后的价格
      */
-    public Double calculateActualPrice(T couponInfo, Double price);
+    BigDecimal calculateActualPrice(T couponInfo, BigDecimal price);
 
 }

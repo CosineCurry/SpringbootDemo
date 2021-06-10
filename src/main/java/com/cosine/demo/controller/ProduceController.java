@@ -3,7 +3,7 @@ package com.cosine.demo.controller;
 import com.cosine.demo.dao.ProductDao;
 import com.cosine.demo.dao.StoreDao;
 import com.cosine.demo.domain.Product;
-import com.cosine.demo.dto.ProductVO;
+import com.cosine.demo.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ import java.util.Date;
 
 /**
  * @ClassName ProduceController
- * @Description 生产商品的Controller
+ * @Description 生产商品的Controller，专为自己写的前端提供服务
  * @Author cosine
  * @Date 2021/6/7 15:09
  * @Version 1.0
@@ -33,7 +33,7 @@ public class ProduceController {
     private StoreDao storeDao;
 
     /**
-     * 生产者首页
+     * 生产者首页，商品列表页面
      * @param model
      * @return
      */
@@ -45,22 +45,27 @@ public class ProduceController {
 
     /**
      * 添加商品页面
-     * 封装为事务
-     * @param productVO
+     * @param productDTO
      * @return
      */
     @GetMapping("signup")
-    public String showSignUpForm(ProductVO productVO) {
+    public String showSignUpForm(ProductDTO productDTO) {
         return "add-product";
     }
 
+    /**
+     * 添加商品逻辑
+     * 封装为事务
+     * @param productDTO
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @PostMapping("addProduct")
-    public String addProduct(@Valid ProductVO productVO, BindingResult bindingResult) {
+    public String addProduct(@Valid ProductDTO productDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "add-product";
         }
-        Product product = new Product(productVO.getProductId(), productVO.getName(), productVO.getPrice(), productVO.getProductItemId(), productVO.getCreateFactory(), new Date(), 0, 0);
+        Product product = new Product(productDTO.getProductId(), productDTO.getName(), productDTO.getPrice(), productDTO.getItemId(), productDTO.getCreateFactory(), new Date(), 0, 0);
         int store= storeDao.getNumber(product.getItemId());
         int maxCount = storeDao.getMaxCount(product.getItemId());
         if (store < maxCount) {

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @ClassName PageController
- * @Description 页面跳转到的controller
+ * @Description 控制页面跳转到的controller，专为自己写的前端
  * @Author cosine
  * @Date 2021/6/7 14:18
  * @Version 1.0

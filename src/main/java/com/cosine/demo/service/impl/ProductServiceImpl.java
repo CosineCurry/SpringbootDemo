@@ -11,7 +11,6 @@ import com.cosine.demo.domain.OrderItem;
 import com.cosine.demo.domain.Product;
 import com.cosine.demo.dto.ProductConsumeDTO;
 import com.cosine.demo.dto.ProductDTO;
-import com.cosine.demo.dto.ProductVO;
 import com.cosine.demo.service.ProductService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -21,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,10 +72,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PageInfo<ProductVO> findAllProductsByPage(int page, int offset) {
+    public PageInfo<ProductDTO> findAllProductsByPage(int page, int offset) {
         //这句是核心
         PageHelper.startPage(page, offset);
-        List<ProductVO> all = productDao.findAllByPage();
+        List<ProductDTO> all = productDao.findAllByPage();
         return new PageInfo<>(all);
     }
 
@@ -121,10 +121,10 @@ public class ProductServiceImpl implements ProductService {
         logger.info("查询得到总共"+res+"条商品数据");
         if (res == productConsumeDTO.getProductDTOS().size()) {
             //计算总价
-            Double price = CommonUtil.calculateTotalPrice(productConsumeDTO.getProductDTOS());
+            BigDecimal price = CommonUtil.calculateTotalPrice(productConsumeDTO.getProductDTOS());
             //计算优惠后的价格
             Integer discountType = productConsumeDTO.getDiscountType();
-            Double totalPrice = CommonUtil.calculatePrice(discountType, price);
+            BigDecimal totalPrice = new CommonUtil().calculatePrice(discountType, new Double(10), price);
             //生成订单主表
             BigInteger orderId = new BigInteger(String.valueOf(System.currentTimeMillis()));
             Date time = new Date();

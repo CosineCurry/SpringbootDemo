@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
@@ -32,7 +33,7 @@ public class ProductDTO implements Serializable {
 
     @ApiModelProperty(value = "商品价格", required = true, example = "3")
     @NotNull(message = "商品价格不能为空")
-    private Double price;
+    private BigDecimal price;
 
     @ApiModelProperty(value = "商品类目id", required = true, example = "1000")
     @NotNull(message = "商品类目id不能为空")

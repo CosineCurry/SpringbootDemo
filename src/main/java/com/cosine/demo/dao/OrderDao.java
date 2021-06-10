@@ -4,6 +4,7 @@ import com.cosine.demo.domain.Order;
 import com.cosine.demo.dto.OrderQueryDTO;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -69,7 +70,7 @@ public interface OrderDao {
      *@param price 修改后的订单价格
      * @return int 1为成功，0为失败
      */
-    int updatePriceById(@Param("orderId") int orderId, @Param("price") long price);
+    int updatePriceById(@Param("orderId") int orderId, @Param("price") BigDecimal price);
 
     /**
      * 修改订单的支付状态

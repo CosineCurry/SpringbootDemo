@@ -1,5 +1,7 @@
 package com.cosine.demo.coupon;
 
+import java.math.BigDecimal;
+
 /**
  * @ClassName ZJCouponDiscount
  * @Description 直减优惠，最低支付金额一元
@@ -10,8 +12,9 @@ package com.cosine.demo.coupon;
 public class ZJCouponDiscount implements Strategy<Double> {
 
     @Override
-    public Double calculateActualPrice(Double couponInfo, Double price) {
-        Double res = price - couponInfo;
-        return res > 1 ? res : 1;
+    public BigDecimal calculateActualPrice(Double couponInfo, BigDecimal price) {
+        BigDecimal x = new BigDecimal(couponInfo);
+        BigDecimal res = price.subtract(x);
+        return res.compareTo(BigDecimal.ONE) > 0 ? res :BigDecimal.ONE;
     }
 }

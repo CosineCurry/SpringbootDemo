@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
@@ -20,5 +21,5 @@ public class OrderItem {
     private BigInteger orderItemId;
     private BigInteger orderId;
     private BigInteger productId;
-    private Double price;
+    private BigDecimal price;
 }

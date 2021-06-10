@@ -1,11 +1,9 @@
 package com.cosine.demo.common;
 
-import com.cosine.demo.coupon.Context;
-import com.cosine.demo.coupon.MJCouponDiscount;
-import com.cosine.demo.coupon.ZJCouponDiscount;
-import com.cosine.demo.coupon.ZKCouponDiscount;
+import com.cosine.demo.coupon.*;
 import com.cosine.demo.dto.ProductDTO;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -15,30 +13,17 @@ import java.util.List;
  * @Date 2021/5/26 18:30
  * @Version 1.0
  */
-public class CommonUtil {
+public class CommonUtil<T> {
     /**
      * 根据优惠条件判定是否有优惠，discountType为0时没有优惠，1满（100）减（10），2直减（10），3折扣（九折）。
      * @param discountType 打折类型
      * @param price 打折前的价格
      * @return Double 优惠后的价格（保存到数据库的数字）
      */
-    public static Double calculatePrice(int discountType, Double price) {
+    public BigDecimal calculatePrice(int discountType, T couponInfo, BigDecimal price) {
 
-        if (discountType == 0) {
-            return price;
-        } else if (discountType == 1) {
-            Double[] array = new Double[2];
-            array[0] = 100.0;
-            array[1] = 10.0;
-            Context<Double[]> context = new Context(new MJCouponDiscount());
-            return context.calculateActualPrice(array, price);
-        } else if (discountType == 2) {
-            Context<Double> context = new Context<>(new ZJCouponDiscount());
-            return context.calculateActualPrice(Double.valueOf(10), price);
-        } else {
-            Context<Double> context = new Context<>(new ZKCouponDiscount());
-            return  context.calculateActualPrice(0.9, price);
-        }
+        Context context = new Context(DiscountCalculationFactory.strategy(discountType));
+        return context.calculateActualPrice(couponInfo, price);
 
     }
 
@@ -71,10 +56,10 @@ public class CommonUtil {
         return res;
     }
 
-    public static Double calculateTotalPrice(List<ProductDTO> productDTOs) {
-        double sum = 0;
+    public static BigDecimal calculateTotalPrice(List<ProductDTO> productDTOs) {
+        BigDecimal sum = BigDecimal.ZERO;
         for (int i = 0; i < productDTOs.size(); i++) {
-            sum += productDTOs.get(i).getPrice();
+            sum = sum.add(productDTOs.get(i).getPrice());
         }
         return sum;
     }
