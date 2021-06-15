@@ -22,9 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @ClassName ProductServiceImpl
@@ -104,19 +102,20 @@ public class ProductServiceImpl implements ProductService {
     public String consumeProducts(ProductConsumeDTO productConsumeDTO) {
         /**
          * 拆分业务，有些方法不用放到事务中，比如1和2，提高性能。
-         * 将以下几个动作封装为事务：
+         * 将3 4 5封装为事务：
          * 1. 先查库存，如果商品还存在于库存（没被锁单）就继续执行，不满足条件就抛异常
          * 2. 计算总价，计算优惠后的价格
          * 3. 生成订单，加入数据库（订单表和订单Item表，一对多）
          * 4. 库存表中减库存
          * 5. 商品表中逻辑删除消费量的商品
-         * 注：mysql的innodb对于更新操作有加锁，本身线程安全。
+         *
          */
 
         ArrayList<BigInteger> arrayList = new ArrayList<>();
         for (int i = 0; i < productConsumeDTO.getProductDTOS().size(); i++) {
             arrayList.add(productConsumeDTO.getProductDTOS().get(i).getProductId());
         }
+        //查库存
         int res = productDao.searchProduct(arrayList);
         logger.info("查询得到总共"+res+"条商品数据");
         if (res == productConsumeDTO.getProductDTOS().size()) {

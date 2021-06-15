@@ -36,6 +36,7 @@
         update product set status = 1, version = version + 1 where item_id = #{itemId} and status = 0 limit #{number}
     </update>
 
+    <!-- for update 为select操作增加行级锁 -->
     <select id="searchProduct" parameterType="arraylist" resultType="int">
         select count(product_id) from product where status = 0
         <if test="productIdList != null and productIdList.size() != 0">
@@ -44,7 +45,7 @@
                 #{value}
             </foreach>
         </if>
-
+        for update
     </select>
 
     <select id="updateStatusById" parameterType="arraylist" resultType="integer">
@@ -55,9 +56,9 @@
                 #{value}
             </foreach>
         </if>
-
     </select>
 
+    <!-- for update 为select操作增加行级锁 -->
     <select id="findProductsByIds" parameterType="arraylist" resultMap="ProductDTOResultMap">
         select product_id, name, price, item_id, create_factory from product where status = 0
         <if test="productIdList != null and productIdList.size() != 0">
@@ -66,6 +67,7 @@
                 #{value}
             </foreach>
         </if>
+        for update
     </select>
 
 </mapper>

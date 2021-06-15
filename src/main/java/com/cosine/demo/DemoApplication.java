@@ -1,5 +1,6 @@
 package com.cosine.demo;
 
+import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan("com.cosine.demo.dao")
+@NacosPropertySource(dataId = "demo", autoRefreshed = true)
 public class DemoApplication {
 
     public static void main(String[] args) {
