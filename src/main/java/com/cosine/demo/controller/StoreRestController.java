@@ -81,4 +81,13 @@ public class StoreRestController {
         return namingService.getAllInstances(serviceName);
     }
 
+    @GetMapping(value = "/setService")
+    public void set() {
+        try {
+            namingService.registerInstance("demo1","localhost",8080);
+        } catch (NacosException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
