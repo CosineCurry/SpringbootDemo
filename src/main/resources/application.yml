@@ -4,6 +4,14 @@ spring:
     username: root
     password: 12345678
     driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      # 连接池大小
+      connections-per-host: 10
+      # 最小连接池大小
+      min-connections-per-host: 10
+      uri: mongodb://root:12345678@localhost:27017/springboottest
+
 
   # Redis 配置
   redis:
