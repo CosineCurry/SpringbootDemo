@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cosine.springbootdemoproduct.dao.DemoProductDao">
+    <resultMap id="BaseResultMap" type="com.cosine.springbootdemoproduct.entity.Product">
+        <result column="product_id" property="productId" />
+        <result column="name" property="name" />
+        <result column="price" property="price" />
+        <result column="item_id" property="itemId" />
+        <result column="create_time" property="createTime" />
+        <result column="create_factory" property="createFactory" />
+        <result column="status" property="status" />
+        <result column="version" property="version" />
+    </resultMap>
+
+    <resultMap id="ProductDTOResultMap" type="com.cosine.springbootdemoproduct.entity.ProductDTO">
+        <result column="product_id" property="productId" />
+        <result column="name" property="name" />
+        <result column="price" property="price" />
+        <result column="item_id" property="itemId" />
+        <result column="create_factory" property="createFactory" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        product_id, name, price, item_id, create_time, create_factory, status, version
+    </sql>
+
+    <insert id="insert" parameterType="com.cosine.springbootdemoproduct.entity.Product">
+        insert into product(product_id, name, price, item_id, create_time, create_factory, status, version) values (#{productId}, #{name}, #{price}, #{itemId}, #{createTime}, #{createFactory}, 0, 0)
+    </insert>
+
+
+</mapper>

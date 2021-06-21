@@ -1,0 +1,12 @@
+server:
+  #端口号
+  port: 9093
+
+# nacos 相关配置
+nacos:
+  # 配置
+  config:
+    server-addr: 127.0.0.1:8848
+    # 服务发现
+  discovery:
+    server-addr: 127.0.0.1:8848

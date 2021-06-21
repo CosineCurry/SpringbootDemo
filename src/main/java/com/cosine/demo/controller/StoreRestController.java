@@ -34,8 +34,8 @@ public class StoreRestController {
     static final Logger logger = LoggerFactory.getLogger(StoreRestController.class);
 
     /** 用于测试nacos的配置管理 */
-    @NacosValue(value = "${useLocalCache:false}", autoRefreshed = true)
-    private boolean useLocalCache;
+    @NacosValue(value = "${useLocalCache:test}", autoRefreshed = true)
+    private String useLocalCache;
 
     /** 用于测试nacos的服务发现 */
     @NacosInjected
@@ -66,7 +66,7 @@ public class StoreRestController {
      * @return
      */
     @GetMapping(value = "/get")
-    public boolean get() {
+    public String get() {
         return useLocalCache;
     }
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cosine.springbootdemostore.dao.DemoStoreDao">
+    <resultMap id="BaseResultMap" type="com.cosine.springbootdemostore.entity.Store">
+        <result column="store_id" property="storeId" />
+        <result column="name" property="name" />
+        <result column="count" property="count" />
+        <result column="item_id" property="itemId" />
+        <result column="maxCount" property="maxCount" />
+        <result column="version" property="version" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        store_id, name, count, item_id, maxCount, version
+    </sql>
+
+
+    <select id="getNumber" resultType="int">
+        select count from store where item_id = #{itemId}
+    </select>
+
+    <select id="getMaxCount" resultType="int">
+        select maxCount from store where item_id = #{itemId}
+    </select>
+
+    <update id="plusOne">
+        update store set count = count + 1, version = version + 1 where item_id = #{itemId}
+    </update>
+
+</mapper>

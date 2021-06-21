@@ -39,3 +39,6 @@ mysql的innodb引擎对于update操作有排他锁，在数据库层面保证了
 引入Nacos，配置中心和服务的注册和发现示例代码写在StoreRestController中。
 ## 2021.6.16更新
 引入Mongo DB。
+## 2021.6.21更新
+使用Nacos的配置中心和服务发现，多模块配置，驱动模块经过服务发现，使用RestTemplate发送http请求，调用商品模块和库存模块的
+服务。
